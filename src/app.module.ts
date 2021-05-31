@@ -5,6 +5,7 @@ import { AppService } from "./app.service"
 import { GameModule } from "./game/game.module"
 import { PlatformModule } from "./platform/platform.module"
 import { CharacterModule } from "./character/character.module"
+import { GameCharacterModule } from "./game_character/game_character.module"
 
 const dbconfig: object = {
   dialect: "sqlite",
@@ -19,6 +20,7 @@ const dbconfig: object = {
     GameModule,
     PlatformModule,
     CharacterModule,
+    GameCharacterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
