@@ -1,4 +1,12 @@
-import { Column, Model, Table } from "sequelize-typescript"
+import {
+  Column,
+  Model,
+  Table,
+  BelongsToMany,
+  ForeignKey,
+} from "sequelize-typescript"
+import { Game } from "../../game/models/game.model"
+import { GameCharacter } from "../../game_character/game_character.model"
 
 @Table
 export class Character extends Model<Character> {
@@ -8,7 +16,9 @@ export class Character extends Model<Character> {
   @Column
   year_released: number
 
-  // FK relationship with game id
-  @Column
+  @ForeignKey(() => Game)
   debut_game: number
+
+  @BelongsToMany(() => Game, () => GameCharacter)
+  games: Game[]
 }
