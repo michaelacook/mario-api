@@ -1,4 +1,5 @@
-import { Column, Model, Table } from "sequelize-typescript"
+import { Column, Model, Table, ForeignKey } from "sequelize-typescript"
+import { Platform } from "../../platform/models/platform.model"
 
 @Table
 export class Game extends Model<Game> {
@@ -8,6 +9,7 @@ export class Game extends Model<Game> {
   @Column
   year: number
 
+  @ForeignKey(() => Platform)
   @Column
   platformId: number
 }

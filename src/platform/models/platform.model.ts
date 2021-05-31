@@ -1,4 +1,5 @@
-import { Column, Model, Table } from "sequelize-typescript"
+import { Column, Model, Table, HasMany } from "sequelize-typescript"
+import { Game } from "../../game/models/game.model"
 
 @Table
 export class Platform extends Model<Platform> {
@@ -7,4 +8,7 @@ export class Platform extends Model<Platform> {
 
   @Column
   year: number
+
+  @HasMany(() => Game)
+  games: Game[]
 }
