@@ -4,6 +4,7 @@ import { ICharacterService } from "../interfaces/characterService.interface"
 import { Character } from "../models/character.model"
 import { Game } from "../../game/models/game.model"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
+import { CreateCharacterDto } from "../dto/createCharacter.dto"
 
 @Injectable()
 export class CharacterService implements ICharacterService {
@@ -67,6 +68,20 @@ export class CharacterService implements ICharacterService {
       }
 
       const character = await this.characterModel.findOne(options)
+      return character
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
+   * Add a character record to the data store
+   * @param {CreateCharacterDto} payload
+   * @returns {object}
+   */
+  public async create(payload: CreateCharacterDto) {
+    try {
+      const character = await this.characterModel.create(payload)
       return character
     } catch (err) {
       return Promise.reject(err)
