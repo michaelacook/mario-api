@@ -10,11 +10,13 @@ import {
   HttpStatus,
   ParseIntPipe,
   Post,
+  Put,
 } from "@nestjs/common"
 import { Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
+import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
 
 @Controller("characters")
 export class CharacterController {
@@ -57,6 +59,21 @@ export class CharacterController {
     try {
       const character = await this.characterService.create(createCharDto)
       return res.status(201).json(character)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Put("/:id")
+  public async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateCharDto: UpdateCharacterDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const character = await this.characterService.update(id, updateCharDto)
+      return res.json(character)
     } catch (err) {
       console.log(err)
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
