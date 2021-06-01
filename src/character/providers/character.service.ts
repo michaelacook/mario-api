@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/sequelize"
 import { ICharacterService } from "../interfaces/characterService.interface"
 import { Character } from "../models/character.model"
 import { Game } from "../../game/models/game.model"
-import { QueryOptions } from "../types/queryOptions"
+import { QueryOptionsDto } from "../dto/queryOptions.dto"
 
 @Injectable()
 export class CharacterService implements ICharacterService {
@@ -14,7 +14,7 @@ export class CharacterService implements ICharacterService {
    * @param {QueryOptions?} queryOptions - options passed in from the controller
    * @returns {Array}
    */
-  public async getAll(queryOptions?: QueryOptions) {
+  public async getAll(queryOptions?: QueryOptionsDto) {
     try {
       const options = {
         order: [
@@ -44,7 +44,7 @@ export class CharacterService implements ICharacterService {
    * @param {QueryOptions?} queryOptions - options passed in from the controller
    * @returns {Object}
    */
-  public async getOne(id: number, queryOptions?: QueryOptions) {
+  public async getOne(id: number, queryOptions?: QueryOptionsDto) {
     try {
       const options = {
         where: {

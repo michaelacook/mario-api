@@ -11,7 +11,7 @@ import {
 } from "@nestjs/common"
 import { Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
-import { QueryStringObject } from "../types/queryString"
+import { QueryOptionsDto } from "../dto/queryOptions.dto"
 
 @Controller("characters")
 export class CharacterController {
@@ -21,7 +21,7 @@ export class CharacterController {
   ) {}
 
   @Get("/")
-  public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
+  public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
     try {
       const characters = await this.characterService.getAll(query)
       return res.json(characters)
@@ -34,7 +34,7 @@ export class CharacterController {
   @Get("/:id")
   public async getOne(
     @Param("id", ParseIntPipe) id: number,
-    @Query() query: QueryStringObject,
+    @Query() query: QueryOptionsDto,
     @Res() res: Response,
   ) {
     try {
