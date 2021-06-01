@@ -4,6 +4,7 @@ import { IGameService } from "../interfaces/gameService.interface"
 import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
 import { Character } from "../../character/models/character.model"
+import { CreateGameDto } from "../dto/createGame.dto"
 
 @Injectable()
 export class GameService implements IGameService {
@@ -67,6 +68,20 @@ export class GameService implements IGameService {
       }
 
       const game = await this.gameModel.findOne(options)
+      return game
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
+   * Create a new game in the data store
+   * @param {CreateGameDto} payload
+   * @returns {object}
+   */
+  public async create(payload: CreateGameDto) {
+    try {
+      const game = await this.gameModel.create(payload)
       return game
     } catch (err) {
       return Promise.reject(err)
