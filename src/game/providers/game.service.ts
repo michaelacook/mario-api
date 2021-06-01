@@ -3,7 +3,6 @@ import { InjectModel } from "@nestjs/sequelize"
 import { IGameService } from "../interfaces/gameService.interface"
 import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
-import { GameCharacter } from "../../game_character/game_character.model"
 import { Character } from "../../character/models/character.model"
 
 @Injectable()
@@ -27,7 +26,7 @@ export class GameService implements IGameService {
       }
 
       if (queryOptions) {
-        if (queryOptions.include_characters) {
+        if (queryOptions.include_characters === "true") {
           options["include"] = Character
         }
       }
@@ -54,7 +53,7 @@ export class GameService implements IGameService {
       }
 
       if (queryOptions) {
-        if (queryOptions.include_characters) {
+        if (queryOptions.include_characters === "true") {
           options["include"] = Character
         }
       }
