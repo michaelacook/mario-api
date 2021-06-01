@@ -1,4 +1,6 @@
+import { QueryOptions } from "../types/queryOptions"
+
 export interface ICharacterService {
-  getAll()
-  getOne(id: number)
+  getAll(options?: QueryOptions)
+  getOne(id: number, options?: QueryOptions)
 }

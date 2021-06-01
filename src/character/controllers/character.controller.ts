@@ -1,6 +1,16 @@
-import { Controller, Get, Req, Res, Inject } from "@nestjs/common"
-import { Request, Response } from "express"
+import {
+  Controller,
+  Get,
+  Res,
+  Query,
+  Param,
+  Inject,
+  HttpException,
+  HttpStatus,
+} from "@nestjs/common"
+import { Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
+import { QueryStringObject } from "../types/queryString"
 
 @Controller("characters")
 export class CharacterController {
@@ -10,15 +20,28 @@ export class CharacterController {
   ) {}
 
   @Get("/")
-  public async getAll(@Res() res: Response) {
-    const characters = await this.characterService.getAll()
-    return res.json(characters)
+  public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
+    try {
+      const characters = await this.characterService.getAll(query)
+      return res.json(characters)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   @Get("/:id")
-  public async getOne(@Req() req: Request, @Res() res: Response) {
-    const { id } = req.params
-    const character = await this.characterService.getOne(Number(id))
-    return res.json(character)
+  public async getOne(
+    @Param("id") id: number,
+    @Query() query: QueryStringObject,
+    @Res() res: Response,
+  ) {
+    try {
+      const character = await this.characterService.getOne(id, query)
+      return res.json(character)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 }
