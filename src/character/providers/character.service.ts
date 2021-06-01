@@ -115,4 +115,26 @@ export class CharacterService implements ICharacterService {
       return Promise.reject(err)
     }
   }
+
+  /**
+   * Delete a character record in the data store
+   * @param {Number} id - primary key
+   * @returns {Number} character id for deleted record
+   * Returning record id is helpful for client apps that want
+   * to use the returned id to remove the record from their own
+   * application state upon successful delete on the server
+   */
+  public async delete(id: number) {
+    try {
+      const character = await this.characterModel.findOne({
+        where: id,
+      })
+
+      await character.destroy()
+
+      return character.id
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
 }

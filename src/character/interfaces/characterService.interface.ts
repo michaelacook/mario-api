@@ -3,4 +3,5 @@ export interface ICharacterService {
   getOne(id: number, options?: object)
   create(payload: object)
   update(id: number, payload: object)
+  delete(id: number)
 }

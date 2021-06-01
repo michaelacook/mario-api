@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Delete,
 } from "@nestjs/common"
 import { Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
@@ -74,6 +75,20 @@ export class CharacterController {
     try {
       const character = await this.characterService.update(id, updateCharDto)
       return res.json(character)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Delete("/:id")
+  public async delete(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const deletedRecordId = await this.characterService.delete(id)
+      return res.json(deletedRecordId)
     } catch (err) {
       console.log(err)
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
