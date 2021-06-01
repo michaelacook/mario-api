@@ -42,7 +42,6 @@ export class GameController {
       const game = await this.gameService.getOne(id, query)
       return res.json(game)
     } catch (err) {
-      console.log(err)
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
