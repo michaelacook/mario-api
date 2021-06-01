@@ -29,6 +29,14 @@ export class GameService implements IGameService {
         if (queryOptions.include_characters === "true") {
           options["include"] = Character
         }
+
+        if (queryOptions.limit) {
+          options["limit"] = queryOptions.limit
+        }
+
+        if (queryOptions.offset) {
+          options["offset"] = queryOptions.offset
+        }
       }
 
       const games = await this.gameModel.findAll(options)
