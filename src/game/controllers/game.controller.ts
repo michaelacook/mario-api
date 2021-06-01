@@ -34,9 +34,13 @@ export class GameController {
   public async getOne(
     @Query() query: QueryStringObject,
     @Param("id") id: number,
+    @Res() res: Response,
   ) {
     try {
+      const game = await this.gameService.getOne(id, query)
+      return res.json(game)
     } catch (err) {
+      console.log(err)
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }

@@ -1,3 +1,3 @@
-import { QueryOptions } from "./queryOption"
+import { QueryOption } from "./queryOption"
 
-export type QueryStringObject = QueryOptions
+export type QueryStringObject = QueryOption

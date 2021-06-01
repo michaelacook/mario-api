@@ -1,9 +1,11 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, Options } from "@nestjs/common"
 import { InjectModel } from "@nestjs/sequelize"
 import { IGameService } from "../interfaces/gameService.interface"
 import { Game } from "../models/game.model"
-import { QueryOptions } from "../types/queryOption"
+import { QueryOption } from "../types/queryOption"
+import { GameCharacter } from "../../game_character/game_character.model"
 import { Character } from "../../character/models/character.model"
+import { query } from "express"
 
 @Injectable()
 export class GameService implements IGameService {
@@ -14,23 +16,18 @@ export class GameService implements IGameService {
    * @param {QueryOptions} queryOptions - options passed from the controller
    * @returns {Array}
    */
-  public async getAll(queryOptions?: QueryOptions) {
+  public async getAll(queryOptions?: QueryOption) {
     try {
       const options = {
-        order: [],
+        order: [
+          [
+            queryOptions.order_term ? queryOptions.order_term : "id",
+            queryOptions.order_by ? queryOptions.order_by : "ASC",
+          ],
+        ],
       }
 
       if (queryOptions) {
-        if (queryOptions.order_term) {
-          options.order.push([queryOptions.order_term])
-        }
-
-        if (queryOptions.order_by) {
-          options.order.length === 1
-            ? options.order[0].push(queryOptions.order_by)
-            : options.order.push([queryOptions.order_by])
-        }
-
         if (queryOptions.include_characters) {
           options["include"] = Character
         }
@@ -38,6 +35,33 @@ export class GameService implements IGameService {
 
       const games = await this.gameModel.findAll(options)
       return games
+    } catch (err) {
+      console.log(err)
+      return Promise.reject(err)
+    }
+  }
+
+  /**
+   * Retrieve a single game by id primary key
+   * @param {QueryOptions} queryOptions - options passed from the controller
+   * @returns {Object}
+   */
+  public async getOne(id: number, queryOptions?: QueryOption) {
+    try {
+      const options = {
+        where: {
+          id,
+        },
+      }
+
+      if (queryOptions) {
+        if (queryOptions.include_characters) {
+          options["include"] = Character
+        }
+      }
+
+      const game = await this.gameModel.findOne(options)
+      return game
     } catch (err) {
       return Promise.reject(err)
     }

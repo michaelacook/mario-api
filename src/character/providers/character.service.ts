@@ -64,11 +64,12 @@ export class CharacterService implements ICharacterService {
         }
 
         if (queryOptions.order_term) {
-          options.order.push(Game, [queryOptions.order_term])
+          options.order.push(Game)
+          options.order.push([queryOptions.order_term])
         }
 
         if (queryOptions.order_by) {
-          options.order.length === 2
+          options.order.length === 1
             ? options.order[0].push(queryOptions.order_by)
             : options.order.push([queryOptions.order_by])
         }

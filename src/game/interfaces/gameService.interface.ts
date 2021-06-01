@@ -1,5 +1,6 @@
-import { QueryOptions } from "../types/queryOption"
+import { QueryOption } from "../types/queryOption"
 
 export interface IGameService {
-  getAll(queryOptions?: QueryOptions)
+  getAll(queryOptions?: QueryOption)
+  getOne(id: number, queryOptions?: QueryOption)
 }
