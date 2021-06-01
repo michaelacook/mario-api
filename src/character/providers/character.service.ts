@@ -17,22 +17,17 @@ export class CharacterService implements ICharacterService {
   public async getAll(queryOptions?: QueryOptions) {
     try {
       const options = {
-        order: [],
+        order: [
+          [
+            queryOptions.order_term ? queryOptions.order_term : "id",
+            queryOptions.order_by ? queryOptions.order_by : "ASC",
+          ],
+        ],
       }
 
       if (queryOptions) {
         if (queryOptions.include_games) {
           options["include"] = Game
-        }
-
-        if (queryOptions.order_term) {
-          options.order.push([queryOptions.order_term])
-        }
-
-        if (queryOptions.order_by) {
-          options.order.length === 1
-            ? options.order[0].push(queryOptions.order_by)
-            : options.order.push([queryOptions.order_by])
         }
       }
 
@@ -55,23 +50,11 @@ export class CharacterService implements ICharacterService {
         where: {
           id,
         },
-        order: [],
       }
 
       if (queryOptions) {
         if (queryOptions.include_games) {
           options["include"] = Game
-        }
-
-        if (queryOptions.order_term) {
-          options.order.push(Game)
-          options.order.push([queryOptions.order_term])
-        }
-
-        if (queryOptions.order_by) {
-          options.order.length === 1
-            ? options.order[0].push(queryOptions.order_by)
-            : options.order.push([queryOptions.order_by])
         }
       }
 
