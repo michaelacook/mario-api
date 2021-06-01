@@ -29,6 +29,14 @@ export class CharacterService implements ICharacterService {
         if (queryOptions.include_games) {
           options["include"] = Game
         }
+
+        if (queryOptions.limit) {
+          options["limit"] = queryOptions.limit
+        }
+
+        if (queryOptions.offset) {
+          options["offset"] = queryOptions.offset
+        }
       }
 
       const characters = await this.characterModel.findAll(options)
