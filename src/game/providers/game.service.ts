@@ -1,14 +1,19 @@
-import { Injectable, Options } from "@nestjs/common"
+import { Inject, Injectable, Options } from "@nestjs/common"
 import { InjectModel } from "@nestjs/sequelize"
 import { IGameService } from "../interfaces/gameService.interface"
 import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
 import { Character } from "../../character/models/character.model"
 import { CreateGameDto } from "../dto/createGame.dto"
+import { AddCharacterDto } from "../dto/addCharacter.dto"
+import { GameCharacterService } from "../../game_character/game_character.service"
 
 @Injectable()
 export class GameService implements IGameService {
-  constructor(@InjectModel(Game) private gameModel) {}
+  constructor(
+    @InjectModel(Game) private gameModel,
+    @Inject(GameCharacterService) private gameCharacterService,
+  ) {}
 
   /**
    * Retrieve all mario games
@@ -82,6 +87,30 @@ export class GameService implements IGameService {
   public async create(payload: CreateGameDto) {
     try {
       const game = await this.gameModel.create(payload)
+      return game
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
+   * Use the GameCharacterService to associate a character with a game
+   * Then return the game with associated characters
+   * @param {AddCharacterDto} payload
+   * @returns {object}
+   */
+  public async addCharacter(payload: AddCharacterDto) {
+    try {
+      const { gameId, characterId } = payload
+      await this.gameCharacterService.addCharacterToGame(gameId, characterId)
+
+      const game = await this.gameModel.findOne({
+        where: {
+          id: gameId,
+        },
+        include: Character,
+      })
+
       return game
     } catch (err) {
       return Promise.reject(err)
