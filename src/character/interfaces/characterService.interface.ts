@@ -1,1 +1,4 @@
-export interface ICharacterService {}
+export interface ICharacterService {
+  getAll()
+  getOne(id: number)
+}
