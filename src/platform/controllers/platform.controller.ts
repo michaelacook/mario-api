@@ -6,6 +6,8 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  Param,
+  ParseIntPipe,
 } from "@nestjs/common"
 import { Response } from "express"
 import { IPlatformService } from "../interfaces/platformService.interface"
@@ -23,6 +25,20 @@ export class PlatformController {
     try {
       const platforms = await this.platformService.getAll(query)
       return res.json(platforms)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Get("/:id")
+  public async getOne(
+    @Param("id", ParseIntPipe) id: number,
+    @Query() query: QueryOptionsDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const platform = await this.platformService.getOne(id, query)
+      return res.json(platform)
     } catch (err) {
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
