@@ -7,6 +7,7 @@ import {
   Inject,
   HttpException,
   HttpStatus,
+  ParseIntPipe,
 } from "@nestjs/common"
 import { Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
@@ -32,7 +33,7 @@ export class CharacterController {
 
   @Get("/:id")
   public async getOne(
-    @Param("id") id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Query() query: QueryStringObject,
     @Res() res: Response,
   ) {

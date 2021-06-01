@@ -9,6 +9,7 @@ import {
   HttpException,
   HttpStatus,
   Inject,
+  ParseIntPipe,
 } from "@nestjs/common"
 import { Response } from "express"
 import { QueryStringObject } from "../types/queryString"
@@ -21,6 +22,7 @@ export class GameController {
   ) {}
 
   @Get("/")
+  // need validation pipe to actually enforce query shape
   public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
     try {
       const games = await this.gameService.getAll(query)
@@ -33,7 +35,7 @@ export class GameController {
   @Get("/:id")
   public async getOne(
     @Query() query: QueryStringObject,
-    @Param("id") id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
     try {
