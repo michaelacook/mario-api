@@ -24,6 +24,14 @@ export class PlatformService implements IPlatformService {
         if (queryOptions.include_games) {
           options["include"] = Game
         }
+
+        if (queryOptions.limit) {
+          options["limit"] = queryOptions.limit
+        }
+
+        if (queryOptions.offset) {
+          options["offset"] = queryOptions.offset
+        }
       }
 
       const platforms = await this.platformModel.findAll(options)
