@@ -5,7 +5,6 @@ import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
 import { GameCharacter } from "../../game_character/game_character.model"
 import { Character } from "../../character/models/character.model"
-import { query } from "express"
 
 @Injectable()
 export class GameService implements IGameService {
