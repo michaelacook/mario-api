@@ -141,4 +141,33 @@ export class GameService implements IGameService {
       return Promise.reject(err)
     }
   }
+
+  /**
+   * Update a game record in the data store
+   * @param {Number} id - game record primary key
+   * @param {object} payload
+   * @returns {object} updated game instance
+   */
+  public async update(id: number, payload: CreateGameDto) {
+    try {
+      const game = await this.gameModel.findOne({
+        where: {
+          id,
+        },
+      })
+
+      for (let key in payload) {
+        if (game[key]) {
+          game[key] = payload[key]
+        }
+      }
+
+      await game.save()
+      await game.reload()
+
+      return game
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
 }

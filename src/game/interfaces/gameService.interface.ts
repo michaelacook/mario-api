@@ -5,4 +5,5 @@ export interface IGameService {
   getOne(id: number, queryOptions?: QueryOption)
   create(payload: object)
   addCharacter(payload: object)
+  update(id: number, payload: object)
 }

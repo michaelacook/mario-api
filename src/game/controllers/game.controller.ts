@@ -11,6 +11,7 @@ import {
   Inject,
   ParseIntPipe,
   Body,
+  Put,
 } from "@nestjs/common"
 import { Response } from "express"
 import { QueryStringObject } from "../types/queryString"
@@ -56,6 +57,20 @@ export class GameController {
     try {
       const game = await this.gameService.create(createGameDto)
       return res.status(201).json(game)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Put("/:id")
+  public async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateGame: CreateGameDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const game = await this.gameService.update(id, updateGame)
+      return res.json(game)
     } catch (err) {
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
