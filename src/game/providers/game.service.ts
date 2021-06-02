@@ -170,4 +170,25 @@ export class GameService implements IGameService {
       return Promise.reject(err)
     }
   }
+
+  /**
+   * Delete a game record in the data store
+   * @param {Number} id - primary key for record
+   * @returns {Number} id for deleted record
+   */
+  public async delete(id: number) {
+    try {
+      const game = await this.gameModel.findOne({
+        where: {
+          id,
+        },
+      })
+
+      await game.destroy()
+
+      return game.id
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
 }

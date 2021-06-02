@@ -12,6 +12,7 @@ import {
   ParseIntPipe,
   Body,
   Put,
+  Delete,
 } from "@nestjs/common"
 import { Response } from "express"
 import { QueryStringObject } from "../types/queryString"
@@ -62,20 +63,6 @@ export class GameController {
     }
   }
 
-  @Put("/:id")
-  public async update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() updateGame: CreateGameDto,
-    @Res() res: Response,
-  ) {
-    try {
-      const game = await this.gameService.update(id, updateGame)
-      return res.json(game)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
-  }
-
   /**
    * Associate a character with a game
    */
@@ -92,6 +79,33 @@ export class GameController {
       }
       const gameWithChars = await this.gameService.addCharacter(payload)
       return res.status(201).json(gameWithChars)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Put("/:id")
+  public async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateGame: CreateGameDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const game = await this.gameService.update(id, updateGame)
+      return res.json(game)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Delete("/:id")
+  public async delete(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const gameId = await this.gameService.delete(id)
+      return res.json(gameId)
     } catch (err) {
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }

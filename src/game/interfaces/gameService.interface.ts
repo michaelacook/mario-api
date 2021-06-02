@@ -6,4 +6,5 @@ export interface IGameService {
   create(payload: object)
   addCharacter(payload: object)
   update(id: number, payload: object)
+  delete(id: number)
 }
