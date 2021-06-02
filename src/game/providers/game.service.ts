@@ -7,6 +7,7 @@ import { Character } from "../../character/models/character.model"
 import { CreateGameDto } from "../dto/createGame.dto"
 import { AddCharacterDto } from "../dto/addCharacter.dto"
 import { GameCharacterService } from "../../game_character/game_character.service"
+import { Platform } from "../../platform/models/platform.model"
 
 @Injectable()
 export class GameService implements IGameService {
@@ -32,8 +33,20 @@ export class GameService implements IGameService {
       }
 
       if (queryOptions) {
-        if (queryOptions.include_characters === "true") {
+        const { include_characters, include_platform } = queryOptions
+        if (include_characters && include_platform) {
+          options["include"] = [
+            {
+              model: Character,
+            },
+            {
+              model: Platform,
+            },
+          ]
+        } else if (include_characters) {
           options["include"] = Character
+        } else if (include_platform) {
+          options["include"] = Platform
         }
 
         if (queryOptions.limit) {
@@ -67,8 +80,20 @@ export class GameService implements IGameService {
       }
 
       if (queryOptions) {
-        if (queryOptions.include_characters === "true") {
+        const { include_characters, include_platform } = queryOptions
+        if (include_characters && include_platform) {
+          options["include"] = [
+            {
+              model: Character,
+            },
+            {
+              model: Platform,
+            },
+          ]
+        } else if (include_characters) {
           options["include"] = Character
+        } else if (include_platform) {
+          options["include"] = Platform
         }
       }
 

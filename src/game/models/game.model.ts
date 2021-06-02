@@ -4,7 +4,6 @@ import {
   Table,
   ForeignKey,
   BelongsToMany,
-  HasOne,
   BelongsTo,
 } from "sequelize-typescript"
 import { Platform } from "../../platform/models/platform.model"

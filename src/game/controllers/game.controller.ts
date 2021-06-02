@@ -25,7 +25,6 @@ export class GameController {
   ) {}
 
   @Get("/")
-  // need validation pipe to actually enforce query shape
   public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
     try {
       const games = await this.gameService.getAll(query)
