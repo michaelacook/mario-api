@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common"
 import { SequelizeModule } from "@nestjs/sequelize"
 import { AppController } from "./app.controller"
 import { AppService } from "./app.service"
-import { GameModule } from "./game/game.module"
-import { PlatformModule } from "./platform/platform.module"
-import { CharacterModule } from "./character/character.module"
-import { GameCharacterModule } from "./game_character/game_character.module"
+import { GameModule } from "./lib/game/game.module"
+import { PlatformModule } from "./lib/platform/platform.module"
+import { CharacterModule } from "./lib/character/character.module"
+import { GameCharacterModule } from "./lib/game_character/game_character.module"
 
 const dbconfig: object = {
   dialect: "sqlite",
