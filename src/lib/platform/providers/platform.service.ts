@@ -87,4 +87,25 @@ export class PlatformService implements IPlatformService {
       return Promise.reject(err)
     }
   }
+
+  /**
+   * Delete a platform record in the data store
+   * @param {Number} id - record primary key
+   * @returns {Number} id for deleted record
+   */
+  public async delete(id: number) {
+    try {
+      const platform = await this.platformModel.findOne({
+        where: {
+          id,
+        },
+      })
+
+      await platform.destroy()
+
+      return platform.id
+    } catch (err) {
+      Promise.reject(err)
+    }
+  }
 }

@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Post,
   Body,
+  Delete,
 } from "@nestjs/common"
 import { Response } from "express"
 import { IPlatformService } from "../interfaces/platformService.interface"
@@ -55,6 +56,19 @@ export class PlatformController {
     try {
       const platform = await this.platformService.create(createPlatformDto)
       return res.json(platform)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Delete("/:id")
+  public async delete(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const platformId = await this.platformService.delete(id)
+      return res.json(platformId)
     } catch (err) {
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
     }
