@@ -76,6 +76,26 @@ export class CharacterService implements ICharacterService {
   }
 
   /**
+   * Get the associated games for a character record
+   * @param {number} id - character record primary key
+   * @returns {Array}
+   */
+  public async getAssociatedGames(id: number) {
+    try {
+      const { games } = await this.characterModel.findOne({
+        where: {
+          id,
+        },
+        include: Game,
+      })
+
+      return games
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
    * Add a character record to the data store
    * @param {CreateCharacterDto} payload
    * @returns {object}

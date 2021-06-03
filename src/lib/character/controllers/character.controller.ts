@@ -52,6 +52,20 @@ export class CharacterController {
     }
   }
 
+  @Get("/:id/games")
+  public async getCharacterGames(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const games = await this.characterService.getAssociatedGames(id)
+      return res.json(games)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
   @Post("/")
   public async create(
     @Body() createCharDto: CreateCharacterDto,
