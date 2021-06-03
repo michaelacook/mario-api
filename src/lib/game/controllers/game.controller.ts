@@ -50,6 +50,19 @@ export class GameController {
     }
   }
 
+  @Get("/:id/platform")
+  public async getGamePlatform(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const platform = await this.gameService.getAssociatedPlatform(id)
+      return res.json(platform)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
   @Post("/")
   public async create(
     @Body() createGameDto: CreateGameDto,

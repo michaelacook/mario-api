@@ -104,6 +104,21 @@ export class GameService implements IGameService {
     }
   }
 
+  public async getAssociatedPlatform(id: number) {
+    try {
+      const { platform } = await this.gameModel.findOne({
+        where: {
+          id,
+        },
+        include: Platform,
+      })
+
+      return platform
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
   /**
    * Create a new game in the data store
    * @param {CreateGameDto} payload
