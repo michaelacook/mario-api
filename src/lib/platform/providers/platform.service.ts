@@ -4,6 +4,7 @@ import { IPlatformService } from "../interfaces/platformService.interface"
 import { Platform } from "../models/platform.model"
 import { Game } from "../../game/models/game.model"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
+import { CreatePlatformDto } from "../dto/createPlatform.dto"
 
 @Injectable()
 export class PlatformService implements IPlatformService {
@@ -67,6 +68,20 @@ export class PlatformService implements IPlatformService {
       }
 
       const platform = await this.platformModel.findOne(options)
+      return platform
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
+   * Create a new platform record in the data store
+   * @param {CreatePlatformDto} payload
+   * @returns {object} created platform record
+   */
+  public async create(payload: CreatePlatformDto) {
+    try {
+      const platform = await this.platformModel.create(payload)
       return platform
     } catch (err) {
       return Promise.reject(err)
