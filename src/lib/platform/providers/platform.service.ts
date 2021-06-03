@@ -89,6 +89,35 @@ export class PlatformService implements IPlatformService {
   }
 
   /**
+   * Update a platform record in the data store then return the updated instance
+   * @param {number} id - platform record primary key
+   * @param {CreatePlatformDto} payload
+   * @returns {object} updated instance
+   */
+  public async update(id: number, payload: CreatePlatformDto) {
+    try {
+      const platform = await this.platformModel.findOne({
+        where: {
+          id,
+        },
+      })
+
+      for (let key in payload) {
+        if (platform[key]) {
+          platform[key] = payload[key]
+        }
+      }
+
+      await platform.save()
+      await platform.reload()
+
+      return platform
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
    * Delete a platform record in the data store
    * @param {Number} id - record primary key
    * @returns {Number} id for deleted record

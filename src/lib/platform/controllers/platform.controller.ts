@@ -11,6 +11,7 @@ import {
   Post,
   Body,
   Delete,
+  Put,
 } from "@nestjs/common"
 import { Response } from "express"
 import { IPlatformService } from "../interfaces/platformService.interface"
@@ -55,6 +56,20 @@ export class PlatformController {
   ) {
     try {
       const platform = await this.platformService.create(createPlatformDto)
+      return res.json(platform)
+    } catch (err) {
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Put("/:id")
+  public async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updatePlatform: CreatePlatformDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const platform = await this.platformService.update(id, updatePlatform)
       return res.json(platform)
     } catch (err) {
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
