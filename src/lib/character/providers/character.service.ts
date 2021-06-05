@@ -96,6 +96,26 @@ export class CharacterService implements ICharacterService {
   }
 
   /**
+   * Get the image url for a character record
+   * @param {Number} id - record primary key
+   * @returns {String} imgUrl
+   */
+  public async getImage(id: number) {
+    try {
+      const imgUrl = await this.characterModel.findOne({
+        where: {
+          id,
+        },
+        attributes: ["image_url"],
+      })
+
+      return imgUrl
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
+  /**
    * Add a character record to the data store
    * @param {CreateCharacterDto} payload
    * @returns {object}

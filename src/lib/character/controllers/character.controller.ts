@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Req,
   Res,
   Query,
   Param,
@@ -12,9 +13,13 @@ import {
   Post,
   Put,
   Delete,
+  UploadedFile,
+  UseInterceptors,
 } from "@nestjs/common"
-import { Response } from "express"
+import { FileInterceptor } from "@nestjs/platform-express"
+import { Express, Request, Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
+import { Uploader } from "../providers/uploader.service"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
@@ -24,6 +29,7 @@ export class CharacterController {
   constructor(
     @Inject("CHARACTER_SERVICE")
     private readonly characterService: ICharacterService,
+    @Inject(Uploader) private readonly uploader,
   ) {}
 
   @Get("/")
@@ -60,6 +66,43 @@ export class CharacterController {
     try {
       const games = await this.characterService.getAssociatedGames(id)
       return res.json(games)
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Get("/:id/image")
+  public async getImage(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      const url = await this.characterService.getImage(id)
+
+      if (url) {
+        return res.redirect(url.image_url)
+      } else {
+        return res.status(404).end()
+      }
+    } catch (err) {
+      console.log(err)
+      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    }
+  }
+
+  @Post("/:id/image")
+  @UseInterceptors(FileInterceptor("file"))
+  public async upload(
+    @UploadedFile() file: Express.Multer.File,
+    @Param("id", ParseIntPipe) id: number,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    try {
+      const image_url = await this.uploader.upload(file, "image/png")
+      const character = await this.characterService.update(id, { image_url })
+      return res.json(character)
     } catch (err) {
       console.log(err)
       throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
