@@ -16,6 +16,9 @@ export class Character extends Model<Character> {
   @Column
   year_released: number
 
+  @Column 
+  image_url: string
+
   @ForeignKey(() => Game)
   debut_game: number
 
