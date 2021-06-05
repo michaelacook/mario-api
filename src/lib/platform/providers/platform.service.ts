@@ -103,7 +103,7 @@ export class PlatformService implements IPlatformService {
       })
 
       for (let key in payload) {
-        if (platform[key]) {
+        if (key in payload) {
           platform[key] = payload[key]
         }
       }

@@ -172,7 +172,7 @@ export class GameService implements IGameService {
       })
 
       for (let key in payload) {
-        if (game[key]) {
+        if (key in payload) {
           game[key] = payload[key]
         }
       }

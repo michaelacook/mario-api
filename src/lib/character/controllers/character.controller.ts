@@ -29,7 +29,7 @@ export class CharacterController {
   constructor(
     @Inject("CHARACTER_SERVICE")
     private readonly characterService: ICharacterService,
-    @Inject(Uploader) private readonly uploader,
+    @Inject(Uploader) private readonly uploader: Uploader,
   ) {}
 
   @Get("/")

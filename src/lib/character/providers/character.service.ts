@@ -142,7 +142,7 @@ export class CharacterService implements ICharacterService {
       })
 
       for (let key in payload) {
-        if (character[key]) {
+        if (key in payload) {
           character[key] = payload[key]
         }
       }
