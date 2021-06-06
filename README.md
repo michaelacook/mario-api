@@ -10,11 +10,9 @@ The application runs on port 5000. To run and view seed data, clone and install,
 
 2. `cd [path/to/mario-api] && npm install` 
 
-3. `npx sequelize-cli db:migrate`
+3. `npm run migrate && npm run seed`
 
-4. `npx sequelize-cli db:seed:all` 
-
-5. `npm run start:dev`
+4. `npm run start:dev`
 
 
 ## Technologies
