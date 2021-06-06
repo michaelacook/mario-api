@@ -18,6 +18,12 @@ export class Uploader {
     })
   }
 
+  /**
+   * Upload a file to an AWS S3 bucket
+   * @param {object} file
+   * @param {String} contentType - HTTP content-type header
+   * @returns {String} url location
+   */
   public async upload(file, contentType?: string) {
     try {
       const params = {

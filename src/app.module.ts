@@ -7,6 +7,7 @@ import { GameModule } from "./lib/game/game.module"
 import { PlatformModule } from "./lib/platform/platform.module"
 import { CharacterModule } from "./lib/character/character.module"
 import { GameCharacterModule } from "./lib/game_character/game_character.module"
+import { UploaderModule } from "./lib/uploader/uploader.module"
 
 const dbconfig: object = {
   dialect: "sqlite",
@@ -23,6 +24,7 @@ const dbconfig: object = {
     PlatformModule,
     CharacterModule,
     GameCharacterModule,
+    UploaderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
