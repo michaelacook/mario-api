@@ -82,7 +82,7 @@ export class CharacterController {
       if (url) {
         return res.redirect(url.image_url)
       } else {
-        return res.status(404).end()
+        throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
       }
     } catch (err) {
       console.log(err)
