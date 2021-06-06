@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Req,
   Res,
   Query,
   Param,
@@ -17,7 +16,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
-import { Express, Request, Response } from "express"
+import { Express, Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
 import { Uploader } from "../../uploader/uploader.service"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
@@ -96,7 +95,6 @@ export class CharacterController {
   public async upload(
     @UploadedFile() file: Express.Multer.File,
     @Param("id", ParseIntPipe) id: number,
-    @Req() req: Request,
     @Res() res: Response,
   ) {
     try {
