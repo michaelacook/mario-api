@@ -15,10 +15,7 @@ import { CharacterController } from "./controllers/character.controller"
       provide: "CHARACTER_SERVICE",
       useClass: CharacterService,
     },
-    {
-      provide: "CHARACTER_IMAGE_UPLOADER",
-      useClass: CharacterImageUploader
-    },
+    CharacterImageUploader,
     Uploader,
   ],
 })
