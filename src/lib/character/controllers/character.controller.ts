@@ -18,7 +18,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
-import { Uploader } from "../../uploader/uploader.service"
+import { CharacterImageUploader } from "../providers/characterImageUploader"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
@@ -28,7 +28,8 @@ export class CharacterController {
   constructor(
     @Inject("CHARACTER_SERVICE")
     private readonly characterService: ICharacterService,
-    @Inject(Uploader) private readonly uploader: Uploader,
+    @Inject(CharacterImageUploader)
+    private readonly characterImageUploader: CharacterImageUploader,
   ) {}
 
   @Get("/")
@@ -98,8 +99,7 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     try {
-      const image_url = await this.uploader.upload(file, "image/png")
-      const character = await this.characterService.update(id, { image_url })
+      const character = await this.characterImageUploader.addImage(id, file)
       return res.json(character)
     } catch (err) {
       console.log(err)

@@ -36,8 +36,8 @@ export class Uploader {
         params["ContentType"] = contentType
       }
 
-      const response = await this.s3.upload(params).promise()
-      return response.Location
+      const { Location } = await this.s3.upload(params).promise()
+      return Location
     } catch (err) {
       return Promise.reject(err)
     }
