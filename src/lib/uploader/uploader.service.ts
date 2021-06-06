@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common"
-import AWS from "aws-sdk"
+import AWS, { S3 } from "aws-sdk"
 
 @Injectable()
 export class Uploader {
   private id: string
   private secret: string
   private bucketName: string
-  private s3
+  private s3: S3
 
   constructor() {
     this.id = process.env.S3_ACCESS_KEY_ID
