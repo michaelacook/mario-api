@@ -1,6 +1,15 @@
 import { Injectable } from "@nestjs/common"
 import AWS, { S3 } from "aws-sdk"
 
+type File = {
+  fieldname: string
+  originalname: string
+  encoding: string
+  mimetype: string
+  buffer: Buffer
+  size: number
+}
+
 @Injectable()
 export class Uploader {
   private id: string
@@ -24,7 +33,7 @@ export class Uploader {
    * @param {String} contentType - HTTP content-type header
    * @returns {String} url location
    */
-  public async upload(file, contentType?: string) {
+  public async upload(file: File, contentType?: string) {
     try {
       const params = {
         Bucket: this.bucketName,
