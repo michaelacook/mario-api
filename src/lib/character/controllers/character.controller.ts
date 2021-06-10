@@ -34,13 +34,8 @@ export class CharacterController {
 
   @Get("/")
   public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
-    try {
-      const characters = await this.characterService.getAll(query)
-      return res.json(characters)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const characters = await this.characterService.getAll(query)
+    return res.json(characters)
   }
 
   @Get("/:id")
@@ -49,13 +44,8 @@ export class CharacterController {
     @Query() query: QueryOptionsDto,
     @Res() res: Response,
   ) {
-    try {
-      const character = await this.characterService.getOne(id, query)
-      return res.json(character)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const character = await this.characterService.getOne(id, query)
+    return res.json(character)
   }
 
   @Get("/:id/games")
@@ -63,13 +53,8 @@ export class CharacterController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const games = await this.characterService.getAssociatedGames(id)
-      return res.json(games)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const games = await this.characterService.getAssociatedGames(id)
+    return res.json(games)
   }
 
   @Get("/:id/image")
@@ -77,17 +62,12 @@ export class CharacterController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const url = await this.characterService.getImage(id)
+    const url = await this.characterService.getImage(id)
 
-      if (url) {
-        return res.redirect(url.image_url)
-      } else {
-        throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
-      }
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    if (url) {
+      return res.redirect(url.image_url)
+    } else {
+      throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
     }
   }
 
@@ -98,13 +78,8 @@ export class CharacterController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const character = await this.characterImageUploader.addImage(id, file)
-      return res.json(character)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const character = await this.characterImageUploader.addImage(id, file)
+    return res.json(character)
   }
 
   @Post("/")
@@ -112,13 +87,8 @@ export class CharacterController {
     @Body() createCharDto: CreateCharacterDto,
     @Res() res: Response,
   ) {
-    try {
-      const character = await this.characterService.create(createCharDto)
-      return res.status(201).json(character)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const character = await this.characterService.create(createCharDto)
+    return res.status(201).json(character)
   }
 
   @Put("/:id")
@@ -127,13 +97,8 @@ export class CharacterController {
     @Body() updateCharDto: UpdateCharacterDto,
     @Res() res: Response,
   ) {
-    try {
-      const character = await this.characterService.update(id, updateCharDto)
-      return res.json(character)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const character = await this.characterService.update(id, updateCharDto)
+    return res.json(character)
   }
 
   @Delete("/:id")
@@ -141,12 +106,7 @@ export class CharacterController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const deletedRecordId = await this.characterService.delete(id)
-      return res.json(deletedRecordId)
-    } catch (err) {
-      console.log(err)
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const deletedRecordId = await this.characterService.delete(id)
+    return res.json(deletedRecordId)
   }
 }
