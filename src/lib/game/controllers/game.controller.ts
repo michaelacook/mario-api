@@ -2,12 +2,9 @@ import {
   Controller,
   Get,
   Post,
-  Req,
   Res,
   Query,
   Param,
-  HttpException,
-  HttpStatus,
   Inject,
   ParseIntPipe,
   Body,
@@ -28,12 +25,8 @@ export class GameController {
 
   @Get("/")
   public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
-    try {
-      const games = await this.gameService.getAll(query)
-      return res.json(games)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const games = await this.gameService.getAll(query)
+    return res.json(games)
   }
 
   @Get("/:id")
@@ -42,12 +35,8 @@ export class GameController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const game = await this.gameService.getOne(id, query)
-      return res.json(game)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const game = await this.gameService.getOne(id, query)
+    return res.json(game)
   }
 
   @Get("/:id/platform")
@@ -55,12 +44,8 @@ export class GameController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const platform = await this.gameService.getAssociatedPlatform(id)
-      return res.json(platform)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platform = await this.gameService.getAssociatedPlatform(id)
+    return res.json(platform)
   }
 
   @Post("/")
@@ -68,12 +53,8 @@ export class GameController {
     @Body() createGameDto: CreateGameDto,
     @Res() res: Response,
   ) {
-    try {
-      const game = await this.gameService.create(createGameDto)
-      return res.status(201).json(game)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const game = await this.gameService.create(createGameDto)
+    return res.status(201).json(game)
   }
 
   /**
@@ -85,16 +66,12 @@ export class GameController {
     @Body() body: { characterId: number },
     @Res() res: Response,
   ) {
-    try {
-      const payload: AddCharacterDto = {
-        gameId: id,
-        characterId: body.characterId,
-      }
-      const gameWithChars = await this.gameService.addCharacter(payload)
-      return res.status(201).json(gameWithChars)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+    const payload: AddCharacterDto = {
+      gameId: id,
+      characterId: body.characterId,
     }
+    const gameWithChars = await this.gameService.addCharacter(payload)
+    return res.status(201).json(gameWithChars)
   }
 
   @Put("/:id")
@@ -103,12 +80,8 @@ export class GameController {
     @Body() updateGame: CreateGameDto,
     @Res() res: Response,
   ) {
-    try {
-      const game = await this.gameService.update(id, updateGame)
-      return res.json(game)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const game = await this.gameService.update(id, updateGame)
+    return res.json(game)
   }
 
   @Delete("/:id")
@@ -116,11 +89,7 @@ export class GameController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const gameId = await this.gameService.delete(id)
-      return res.json(gameId)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const gameId = await this.gameService.delete(id)
+    return res.json(gameId)
   }
 }
