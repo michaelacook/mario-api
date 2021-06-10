@@ -4,8 +4,6 @@ import {
   Inject,
   Res,
   Query,
-  HttpException,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -27,12 +25,8 @@ export class PlatformController {
 
   @Get("/")
   public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
-    try {
-      const platforms = await this.platformService.getAll(query)
-      return res.json(platforms)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platforms = await this.platformService.getAll(query)
+    return res.json(platforms)
   }
 
   @Get("/:id")
@@ -41,12 +35,8 @@ export class PlatformController {
     @Query() query: QueryOptionsDto,
     @Res() res: Response,
   ) {
-    try {
-      const platform = await this.platformService.getOne(id, query)
-      return res.json(platform)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platform = await this.platformService.getOne(id, query)
+    return res.json(platform)
   }
 
   @Post("/")
@@ -54,12 +44,8 @@ export class PlatformController {
     @Body() createPlatformDto: CreatePlatformDto,
     @Res() res: Response,
   ) {
-    try {
-      const platform = await this.platformService.create(createPlatformDto)
-      return res.json(platform)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platform = await this.platformService.create(createPlatformDto)
+    return res.json(platform)
   }
 
   @Put("/:id")
@@ -68,12 +54,8 @@ export class PlatformController {
     @Body() updatePlatform: CreatePlatformDto,
     @Res() res: Response,
   ) {
-    try {
-      const platform = await this.platformService.update(id, updatePlatform)
-      return res.json(platform)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platform = await this.platformService.update(id, updatePlatform)
+    return res.json(platform)
   }
 
   @Delete("/:id")
@@ -81,11 +63,7 @@ export class PlatformController {
     @Param("id", ParseIntPipe) id: number,
     @Res() res: Response,
   ) {
-    try {
-      const platformId = await this.platformService.delete(id)
-      return res.json(platformId)
-    } catch (err) {
-      throw new HttpException("Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    const platformId = await this.platformService.delete(id)
+    return res.json(platformId)
   }
 }
