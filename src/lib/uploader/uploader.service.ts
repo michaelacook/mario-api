@@ -12,18 +12,14 @@ type File = {
 
 @Injectable()
 export class Uploader {
-  private id: string
-  private secret: string
   private bucketName: string
   private s3: S3
 
   constructor() {
-    this.id = process.env.S3_ACCESS_KEY_ID
-    this.secret = process.env.S3_SECRET_ACCESS_KEY
     this.bucketName = process.env.S3_BUCKET_NAME
     this.s3 = new AWS.S3({
-      accessKeyId: this.id,
-      secretAccessKey: this.secret,
+      accessKeyId: process.env.S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
     })
   }
 
