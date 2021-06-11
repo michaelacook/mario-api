@@ -45,9 +45,15 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const character = await this.characterService.getOne(id, query)
-    return res.json(character)
+
+    if (character) {
+      return res.json(character)
+    }
+
+    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
   }
 
+  // this route needs middleware to verify a record exists for the id
   @Get("/:id/games")
   public async getCharacterGames(
     @Param("id", ParseIntPipe) id: number,
@@ -66,11 +72,12 @@ export class CharacterController {
 
     if (url) {
       return res.redirect(url.image_url)
-    } else {
-      throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
     }
+
+    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
   }
 
+  // this route needs middleware to verify that a record exists for the id
   @Post("/:id/image")
   @UseInterceptors(FileInterceptor("file"))
   public async upload(
