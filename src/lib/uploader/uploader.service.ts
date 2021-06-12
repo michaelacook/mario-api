@@ -1,14 +1,6 @@
 import { Injectable } from "@nestjs/common"
+import { File } from "./uploader.types"
 import AWS, { S3 } from "aws-sdk"
-
-type File = {
-  fieldname: string
-  originalname: string
-  encoding: string
-  mimetype: string
-  buffer: Buffer
-  size: number
-}
 
 @Injectable()
 export class Uploader {
