@@ -15,6 +15,7 @@ import { Response } from "express"
 import { IPlatformService } from "../interfaces/platformService.interface"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreatePlatformDto } from "../dto/createPlatform.dto"
+import { PlatformExistsPipe } from "../pipes/platformExists.pipe"
 
 @Controller("platforms")
 export class PlatformController {
@@ -31,7 +32,7 @@ export class PlatformController {
 
   @Get("/:id")
   public async getOne(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, PlatformExistsPipe) id: number,
     @Query() query: QueryOptionsDto,
     @Res() res: Response,
   ) {
@@ -50,7 +51,7 @@ export class PlatformController {
 
   @Put("/:id")
   public async update(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, PlatformExistsPipe) id: number,
     @Body() updatePlatform: CreatePlatformDto,
     @Res() res: Response,
   ) {
@@ -60,7 +61,7 @@ export class PlatformController {
 
   @Delete("/:id")
   public async delete(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, PlatformExistsPipe) id: number,
     @Res() res: Response,
   ) {
     const platformId = await this.platformService.delete(id)
