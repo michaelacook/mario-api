@@ -6,8 +6,6 @@ import {
   Query,
   Param,
   Inject,
-  HttpException,
-  HttpStatus,
   ParseIntPipe,
   Post,
   Put,
@@ -22,6 +20,7 @@ import { CharacterImageUploader } from "../providers/characterImageUploader"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
+import { CharacterExistsPipe } from "../pipes/characterExists.pipe"
 
 @Controller("characters")
 export class CharacterController {
@@ -35,57 +34,50 @@ export class CharacterController {
   @Get("/")
   public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
     const characters = await this.characterService.getAll(query)
+
     return res.json(characters)
   }
 
   @Get("/:id")
   public async getOne(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Query() query: QueryOptionsDto,
     @Res() res: Response,
   ) {
     const character = await this.characterService.getOne(id, query)
 
-    if (character) {
-      return res.json(character)
-    }
-
-    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
+    return res.json(character)
   }
 
-  // this route needs middleware to verify a record exists for the id
   @Get("/:id/games")
   public async getCharacterGames(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Res() res: Response,
   ) {
     const games = await this.characterService.getAssociatedGames(id)
+
     return res.json(games)
   }
 
   @Get("/:id/image")
   public async getImage(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Res() res: Response,
   ) {
     const url = await this.characterService.getImage(id)
 
-    if (url) {
-      return res.redirect(url.image_url)
-    }
-
-    throw new HttpException("Not Found", HttpStatus.NOT_FOUND)
+    return res.json(url)
   }
 
-  // this route needs middleware to verify that a record exists for the id
   @Post("/:id/image")
   @UseInterceptors(FileInterceptor("file"))
   public async upload(
     @UploadedFile() file: Express.Multer.File,
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Res() res: Response,
   ) {
     const character = await this.characterImageUploader.addImage(id, file)
+
     return res.json(character)
   }
 
@@ -95,25 +87,28 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const character = await this.characterService.create(createCharDto)
+
     return res.status(201).json(character)
   }
 
   @Put("/:id")
   public async update(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Body() updateCharDto: UpdateCharacterDto,
     @Res() res: Response,
   ) {
     const character = await this.characterService.update(id, updateCharDto)
+
     return res.json(character)
   }
 
   @Delete("/:id")
   public async delete(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
     @Res() res: Response,
   ) {
     const deletedRecordId = await this.characterService.delete(id)
+
     return res.json(deletedRecordId)
   }
 }
