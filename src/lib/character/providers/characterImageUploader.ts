@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { Uploader } from "../../uploader/uploader.service"
+import { File } from "../../uploader/uploader.types"
 import { ICharacterService } from "../interfaces/characterService.interface"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
 
@@ -18,7 +19,7 @@ export class CharacterImageUploader extends Uploader {
    * @param {object} file
    * @returns {object} updated
    */
-  public async addImage(id: number, file) {
+  public async addImage(id: number, file: File) {
     try {
       const image_url = await this.upload(file, "image/png")
       const payload: UpdateCharacterDto = { image_url }
