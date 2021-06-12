@@ -5,6 +5,7 @@ import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
 import { Character } from "../../character/models/character.model"
 import { CreateGameDto } from "../dto/createGame.dto"
+import { UpdateGameDto } from "../dto/updateGame.dto"
 import { AddCharacterDto } from "../dto/addCharacter.dto"
 import { GameCharacterService } from "../../game_character/game_character.service"
 import { Platform } from "../../platform/models/platform.model"
@@ -163,7 +164,7 @@ export class GameService implements IGameService {
    * @param {object} payload
    * @returns {object} updated game instance
    */
-  public async update(id: number, payload: CreateGameDto) {
+  public async update(id: number, payload: UpdateGameDto) {
     try {
       const game = await this.gameModel.findOne({
         where: {
