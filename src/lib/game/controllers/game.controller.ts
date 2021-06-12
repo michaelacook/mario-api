@@ -15,6 +15,7 @@ import { Response } from "express"
 import { QueryStringObject } from "../types/queryString"
 import { IGameService } from "../interfaces/gameService.interface"
 import { CreateGameDto } from "../dto/createGame.dto"
+import { UpdateGameDto } from "../dto/updateGame.dto"
 import { AddCharacterDto } from "../dto/addCharacter.dto"
 import { GameExistsPipe } from "../pipes/gameExists.pipe"
 
@@ -83,7 +84,7 @@ export class GameController {
   @Put("/:id")
   public async update(
     @Param("id", ParseIntPipe, GameExistsPipe) id: number,
-    @Body() updateGame: CreateGameDto,
+    @Body() updateGame: UpdateGameDto,
     @Res() res: Response,
   ) {
     const game = await this.gameService.update(id, updateGame)
