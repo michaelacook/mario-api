@@ -3,7 +3,7 @@ import { SequelizeModule } from "@nestjs/sequelize"
 import { Character } from "./models/character.model"
 import { CharacterService } from "./providers/character.service"
 import { Uploader } from "../uploader/uploader.service"
-import { CharacterImageUploader } from "./providers/characterImageUploader"
+import { CharacterImageUploader } from "./providers/characterImageUploader.service"
 import { CharacterController } from "./controllers/character.controller"
 
 @Module({

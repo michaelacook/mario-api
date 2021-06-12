@@ -16,7 +16,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
 import { ICharacterService } from "../interfaces/characterService.interface"
-import { CharacterImageUploader } from "../providers/characterImageUploader"
+import { CharacterImageUploader } from "../providers/characterImageUploader.service"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
