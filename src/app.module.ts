@@ -8,18 +8,21 @@ import { PlatformModule } from "./lib/platform/platform.module"
 import { CharacterModule } from "./lib/character/character.module"
 import { GameCharacterModule } from "./lib/game_character/game_character.module"
 import { UploaderModule } from "./lib/uploader/uploader.module"
+import { config } from "./database/config"
 
-const dbconfig: object = {
-  dialect: "sqlite",
-  storage: "./dev",
-  logging: false,
-  autoLoadModels: true,
-}
+const env = process.env.NODE_ENV || "development"
+
+// const dbconfig: object = {
+//   dialect: "sqlite",
+//   storage: "./dev",
+//   logging: false,
+//   autoLoadModels: true,
+// }
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    SequelizeModule.forRoot(dbconfig),
+    SequelizeModule.forRoot(config[env]),
     GameModule,
     PlatformModule,
     CharacterModule,

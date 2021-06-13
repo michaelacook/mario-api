@@ -1,8 +1,9 @@
-module.exports = {
+export const config = {
   development: {
     dialect: "sqlite",
     storage: "./dev",
     logging: false,
+    autoLoadModels: true,
   },
   test: {
     dialect: "sqlite",
@@ -17,5 +18,6 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
+    autoLoadModels: true,
   },
 }
