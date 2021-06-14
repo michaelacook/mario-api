@@ -33,8 +33,9 @@ const postGresConfig: object = {
 
 @Module({
   imports: [
+    SequelizeModule.forRootAsync(postGresConfig),
     ConfigModule.forRoot({ isGlobal: true }),
-    SequelizeModule.forRoot(postGresConfig),
+    // SequelizeModule.forRoot(postGresConfig),
     GameModule,
     PlatformModule,
     CharacterModule,
