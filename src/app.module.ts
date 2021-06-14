@@ -12,17 +12,29 @@ import { config } from "./database/config"
 
 const env = process.env.NODE_ENV || "development"
 
-// const dbconfig: object = {
-//   dialect: "sqlite",
-//   storage: "./dev",
-//   logging: false,
-//   autoLoadModels: true,
-// }
+const dbconfig: object = {
+  dialect: "sqlite",
+  storage: "./dev",
+  logging: false,
+  autoLoadModels: true,
+}
+
+const postGresConfig: object = {
+  dialect: "postgres",
+  host: config.production.use_env_variable,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+  autoLoadModels: true,
+}
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    SequelizeModule.forRoot(config[env]),
+    SequelizeModule.forRoot(postGresConfig),
     GameModule,
     PlatformModule,
     CharacterModule,
