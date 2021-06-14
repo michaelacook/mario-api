@@ -20,12 +20,7 @@ const dbconfig: object = {
 }
 
 const postGresConfig: object = {
-  host: process.env.HOST,
-  dialect: "postgres",
-  port: process.env.PORT,
-  username: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
+  urlDatabase: process.env.DATABASE_URL,
   dialectOptions: {
     ssl: {
       require: true,
