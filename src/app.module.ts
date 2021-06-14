@@ -19,8 +19,10 @@ const dbconfig: object = {
   autoLoadModels: true,
 }
 
+console.log("database url: ", process.env.DATABASE_URL)
+
 const postGresConfig: object = {
-  url: process.env.DATABASE_URL,
+  url: "postgres://iqkjgqapygxime:603ae8965bd12621b2fbb9a4f2d25e34b3a7adc76c5f3bc4288858a4d52886e0@ec2-3-212-75-25.compute-1.amazonaws.com:5432/d1rcd2nlivtm71",
   dialect: "postgres",
   dialectOptions: {
     ssl: {
@@ -33,9 +35,8 @@ const postGresConfig: object = {
 
 @Module({
   imports: [
-    SequelizeModule.forRootAsync(postGresConfig),
     ConfigModule.forRoot({ isGlobal: true }),
-    // SequelizeModule.forRoot(postGresConfig),
+    SequelizeModule.forRoot(dbconfig),
     GameModule,
     PlatformModule,
     CharacterModule,
