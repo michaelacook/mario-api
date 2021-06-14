@@ -21,6 +21,7 @@ const dbconfig: object = {
 
 const postGresConfig: object = {
   urlDatabase: process.env.DATABASE_URL,
+  dialect: "postgres",
   dialectOptions: {
     ssl: {
       require: true,
