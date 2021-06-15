@@ -5,13 +5,13 @@ import {
   ArgumentMetadata,
   NotFoundException,
 } from "@nestjs/common"
-import { ICharacterService } from "../interfaces/characterService.interface"
+import { CharacterService } from "../providers/character.service"
 
 @Injectable()
 export class CharacterExistsPipe implements PipeTransform {
   constructor(
-    @Inject("CHARACTER_SERVICE")
-    private readonly characterService: ICharacterService,
+    @Inject(CharacterService)
+    private readonly characterService: CharacterService,
   ) {}
 
   public async transform(value: number, metadata: ArgumentMetadata) {

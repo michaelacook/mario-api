@@ -5,13 +5,13 @@ import {
   ArgumentMetadata,
   NotFoundException,
 } from "@nestjs/common"
-import { IPlatformService } from "../interfaces/platformService.interface"
+import { PlatformService } from "../providers/platform.service"
 
 @Injectable()
 export class PlatformExistsPipe implements PipeTransform {
   constructor(
-    @Inject("PLATFORM_SERVICE")
-    private readonly platformService: IPlatformService,
+    @Inject(PlatformService)
+    private readonly platformService: PlatformService,
   ) {}
 
   public async transform(value: number, metadata: ArgumentMetadata) {

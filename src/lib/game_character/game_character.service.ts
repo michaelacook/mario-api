@@ -1,18 +1,16 @@
-import { Injectable } from "@nestjs/common"
-import { InjectModel } from "@nestjs/sequelize"
-import { IGameCharacterService } from "./game_character.interface"
+import { Injectable, Inject } from "@nestjs/common"
 import { GameCharacter } from "./game_character.model"
 
 @Injectable()
-export class GameCharacterService implements IGameCharacterService {
-  constructor(@InjectModel(GameCharacter) private gameCharacterModel) {}
+export class GameCharacterService {
+  constructor(
+    @Inject("GAME_CHARACTERS_REPOSITORY")
+    private readonly gameCharacterRepository: typeof GameCharacter,
+  ) {}
 
-  public async addCharacterToGame(gameId: number, characterId: number) {
+  public async addCharacterToGame(payload) {
     try {
-      const gameCharacter = await this.gameCharacterModel.create({
-        gameId,
-        characterId,
-      })
+      const gameCharacter = await this.gameCharacterRepository.create(payload)
 
       return gameCharacter
     } catch (err) {

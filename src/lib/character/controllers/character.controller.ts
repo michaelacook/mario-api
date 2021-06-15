@@ -15,7 +15,7 @@ import {
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
-import { ICharacterService } from "../interfaces/characterService.interface"
+import { CharacterService } from "../providers/character.service"
 import { CharacterImageUploader } from "../providers/characterImageUploader.service"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreateCharacterDto } from "../dto/createCharacter.dto"
@@ -25,8 +25,8 @@ import { CharacterExistsPipe } from "../pipes/characterExists.pipe"
 @Controller("characters")
 export class CharacterController {
   constructor(
-    @Inject("CHARACTER_SERVICE")
-    private readonly characterService: ICharacterService,
+    @Inject(CharacterService)
+    private readonly characterService: CharacterService,
     @Inject(CharacterImageUploader)
     private readonly characterImageUploader: CharacterImageUploader,
   ) {}

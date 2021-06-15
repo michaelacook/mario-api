@@ -1,14 +1,14 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { Uploader } from "../../uploader/uploader.service"
 import { File } from "../../uploader/uploader.types"
-import { ICharacterService } from "../interfaces/characterService.interface"
+import { CharacterService } from "../providers/character.service"
 import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
 
 @Injectable()
 export class CharacterImageUploader extends Uploader {
   constructor(
-    @Inject("CHARACTER_SERVICE")
-    private readonly characterService: ICharacterService,
+    @Inject(CharacterService)
+    private readonly characterService: CharacterService,
   ) {
     super()
   }

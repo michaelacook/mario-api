@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common"
-import { InjectModel } from "@nestjs/sequelize"
-import { ICharacterService } from "../interfaces/characterService.interface"
+import { Inject, Injectable } from "@nestjs/common"
 import { Character } from "../models/character.model"
 import { Game } from "../../game/models/game.model"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
-import { CreateCharacterDto } from "../dto/createCharacter.dto"
-import { UpdateCharacterDto } from "../dto/updateCharacter.dto"
+import { FindOptions } from "sequelize/types"
 
 @Injectable()
-export class CharacterService implements ICharacterService {
-  constructor(@InjectModel(Character) private characterModel) {}
+export class CharacterService {
+  constructor(
+    @Inject("CHARACTERS_REPOSITORY")
+    private characterRepository: typeof Character,
+  ) {}
 
   /**
    * Retrieve all characters from the data store
@@ -18,7 +18,7 @@ export class CharacterService implements ICharacterService {
    */
   public async getAll(queryOptions?: QueryOptionsDto) {
     try {
-      const options = {
+      const options: FindOptions = {
         order: [
           [
             queryOptions.order_term ? queryOptions.order_term : "id",
@@ -41,7 +41,7 @@ export class CharacterService implements ICharacterService {
         }
       }
 
-      const characters = await this.characterModel.findAll(options)
+      const characters = await this.characterRepository.findAll(options)
       return characters
     } catch (err) {
       return Promise.reject(err)
@@ -56,7 +56,7 @@ export class CharacterService implements ICharacterService {
    */
   public async getOne(id: number, queryOptions?: QueryOptionsDto) {
     try {
-      const options = {
+      const options: FindOptions = {
         where: {
           id,
         },
@@ -68,7 +68,7 @@ export class CharacterService implements ICharacterService {
         }
       }
 
-      const character = await this.characterModel.findOne(options)
+      const character = await this.characterRepository.findOne(options)
       return character
     } catch (err) {
       return Promise.reject(err)
@@ -82,7 +82,7 @@ export class CharacterService implements ICharacterService {
    */
   public async getAssociatedGames(id: number) {
     try {
-      const { games } = await this.characterModel.findOne({
+      const { games } = await this.characterRepository.findOne({
         where: {
           id,
         },
@@ -102,7 +102,7 @@ export class CharacterService implements ICharacterService {
    */
   public async getImage(id: number) {
     try {
-      const imgUrl = await this.characterModel.findOne({
+      const imgUrl = await this.characterRepository.findOne({
         where: {
           id,
         },
@@ -120,9 +120,9 @@ export class CharacterService implements ICharacterService {
    * @param {CreateCharacterDto} payload
    * @returns {object}
    */
-  public async create(payload: CreateCharacterDto) {
+  public async create(payload) {
     try {
-      const character = await this.characterModel.create(payload)
+      const character = await this.characterRepository.create(payload)
       return character
     } catch (err) {
       return Promise.reject(err)
@@ -135,10 +135,12 @@ export class CharacterService implements ICharacterService {
    * @param {UpdateCharacterDto} payload
    * @returns {object}
    */
-  public async update(id: number, payload: UpdateCharacterDto) {
+  public async update(id: number, payload) {
     try {
-      const character = await this.characterModel.findOne({
-        where: id,
+      const character = await this.characterRepository.findOne({
+        where: {
+          id,
+        },
       })
 
       for (let key in payload) {
@@ -166,8 +168,10 @@ export class CharacterService implements ICharacterService {
    */
   public async delete(id: number) {
     try {
-      const character = await this.characterModel.findOne({
-        where: id,
+      const character = await this.characterRepository.findOne({
+        where: {
+          id,
+        },
       })
 
       await character.destroy()

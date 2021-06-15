@@ -1,18 +1,18 @@
 import { Module } from "@nestjs/common"
-import { SequelizeModule } from "@nestjs/sequelize"
-import { Platform } from "./models/platform.model"
+// import { SequelizeModule } from "@nestjs/sequelize"
+import { DatabaseModule } from "../../database/database.module"
+// import { Platform } from "./models/platform.model"
 import { PlatformService } from "./providers/platform.service"
 import { PlatformController } from "./controllers/platform.controller"
+import { platformProviders } from "./platform.providers"
 
 @Module({
-  imports: [SequelizeModule.forFeature([Platform])],
-  exports: [SequelizeModule],
+  imports: [DatabaseModule],
+  // exports: [SequelizeModule],
   controllers: [PlatformController],
   providers: [
-    {
-      provide: "PLATFORM_SERVICE",
-      useClass: PlatformService,
-    },
+    PlatformService,
+    ...platformProviders,
   ],
 })
 export class PlatformModule {}

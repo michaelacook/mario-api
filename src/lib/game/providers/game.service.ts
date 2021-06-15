@@ -1,19 +1,15 @@
-import { Inject, Injectable, Options } from "@nestjs/common"
-import { InjectModel } from "@nestjs/sequelize"
-import { IGameService } from "../interfaces/gameService.interface"
+import { Inject, Injectable } from "@nestjs/common"
 import { Game } from "../models/game.model"
 import { QueryOption } from "../types/queryOption"
 import { Character } from "../../character/models/character.model"
-import { CreateGameDto } from "../dto/createGame.dto"
-import { UpdateGameDto } from "../dto/updateGame.dto"
-import { AddCharacterDto } from "../dto/addCharacter.dto"
 import { GameCharacterService } from "../../game_character/game_character.service"
 import { Platform } from "../../platform/models/platform.model"
+import { FindOptions } from "sequelize/types"
 
 @Injectable()
-export class GameService implements IGameService {
+export class GameService {
   constructor(
-    @InjectModel(Game) private gameModel,
+    @Inject("GAMES_REPOSITORY") private gameRepository: typeof Game,
     @Inject(GameCharacterService) private gameCharacterService,
   ) {}
 
@@ -24,7 +20,7 @@ export class GameService implements IGameService {
    */
   public async getAll(queryOptions?: QueryOption) {
     try {
-      const options = {
+      const options: FindOptions = {
         order: [
           [
             queryOptions.order_term ? queryOptions.order_term : "id",
@@ -59,7 +55,7 @@ export class GameService implements IGameService {
         }
       }
 
-      const games = await this.gameModel.findAll(options)
+      const games = await this.gameRepository.findAll(options)
       return games
     } catch (err) {
       console.log(err)
@@ -98,7 +94,7 @@ export class GameService implements IGameService {
         }
       }
 
-      const game = await this.gameModel.findOne(options)
+      const game = await this.gameRepository.findOne(options)
       return game
     } catch (err) {
       return Promise.reject(err)
@@ -107,7 +103,7 @@ export class GameService implements IGameService {
 
   public async getAssociatedPlatform(id: number) {
     try {
-      const { platform } = await this.gameModel.findOne({
+      const { platform } = await this.gameRepository.findOne({
         where: {
           id,
         },
@@ -125,9 +121,9 @@ export class GameService implements IGameService {
    * @param {CreateGameDto} payload
    * @returns {object}
    */
-  public async create(payload: CreateGameDto) {
+  public async create(payload) {
     try {
-      const game = await this.gameModel.create(payload)
+      const game = await this.gameRepository.create(payload)
       return game
     } catch (err) {
       return Promise.reject(err)
@@ -140,12 +136,12 @@ export class GameService implements IGameService {
    * @param {AddCharacterDto} payload
    * @returns {object}
    */
-  public async addCharacter(payload: AddCharacterDto) {
+  public async addCharacter(payload) {
     try {
-      const { gameId, characterId } = payload
-      await this.gameCharacterService.addCharacterToGame(gameId, characterId)
+      const { gameId } = payload
+      await this.gameCharacterService.addCharacterToGame(payload)
 
-      const game = await this.gameModel.findOne({
+      const game = await this.gameRepository.findOne({
         where: {
           id: gameId,
         },
@@ -164,9 +160,9 @@ export class GameService implements IGameService {
    * @param {object} payload
    * @returns {object} updated game instance
    */
-  public async update(id: number, payload: UpdateGameDto) {
+  public async update(id: number, payload) {
     try {
-      const game = await this.gameModel.findOne({
+      const game = await this.gameRepository.findOne({
         where: {
           id,
         },
@@ -194,7 +190,7 @@ export class GameService implements IGameService {
    */
   public async delete(id: number) {
     try {
-      const game = await this.gameModel.findOne({
+      const game = await this.gameRepository.findOne({
         where: {
           id,
         },

@@ -12,8 +12,8 @@ import {
   Delete,
 } from "@nestjs/common"
 import { Response } from "express"
+import { GameService } from "../providers/game.service"
 import { QueryStringObject } from "../types/queryString"
-import { IGameService } from "../interfaces/gameService.interface"
 import { CreateGameDto } from "../dto/createGame.dto"
 import { UpdateGameDto } from "../dto/updateGame.dto"
 import { AddCharacterDto } from "../dto/addCharacter.dto"
@@ -21,9 +21,7 @@ import { GameExistsPipe } from "../pipes/gameExists.pipe"
 
 @Controller("games")
 export class GameController {
-  constructor(
-    @Inject("GAME_SERVICE") private readonly gameService: IGameService,
-  ) {}
+  constructor(@Inject(GameService) private readonly gameService: GameService) {}
 
   @Get("/")
   public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {

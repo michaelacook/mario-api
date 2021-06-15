@@ -12,7 +12,7 @@ import {
   Put,
 } from "@nestjs/common"
 import { Response } from "express"
-import { IPlatformService } from "../interfaces/platformService.interface"
+import { PlatformService } from "../providers/platform.service"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
 import { CreatePlatformDto } from "../dto/createPlatform.dto"
 import { PlatformExistsPipe } from "../pipes/platformExists.pipe"
@@ -20,8 +20,8 @@ import { PlatformExistsPipe } from "../pipes/platformExists.pipe"
 @Controller("platforms")
 export class PlatformController {
   constructor(
-    @Inject("PLATFORM_SERVICE")
-    private readonly platformService: IPlatformService,
+    @Inject(PlatformService)
+    private readonly platformService: PlatformService,
   ) {}
 
   @Get("/")

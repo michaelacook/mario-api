@@ -1,17 +1,26 @@
-export const config = {
-  development: {
-    dialect: "sqlite",
-    storage: "./dev",
-    logging: false,
-    autoLoadModels: true,
-  },
-  test: {
-    dialect: "sqlite",
-    storage: "./dev",
-  },
+const sqlite = {
+  dialect: "sqlite",
+  storage: "./dev",
+  logging: false,
+  autoLoadModels: true,
+}
+
+const mysql = {
+  dialect: "mysql",
+  host: "127.0.0.1",
+  port: 3306,
+  username: "root",
+  password: "",
+  database: "mario-api",
+  autoLoadModels: true,
+}
+
+module.exports = {
+  development: sqlite,
+  test: sqlite,
   production: {
     use_env_variable: "DATABASE_URL",
-    dialect: "postgres",
+    dialect: "mysql",
     dialectOptions: {
       ssl: {
         require: true,

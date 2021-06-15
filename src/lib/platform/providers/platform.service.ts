@@ -1,14 +1,14 @@
-import { Injectable } from "@nestjs/common"
-import { InjectModel } from "@nestjs/sequelize"
-import { IPlatformService } from "../interfaces/platformService.interface"
+import { Injectable, Inject } from "@nestjs/common"
 import { Platform } from "../models/platform.model"
 import { Game } from "../../game/models/game.model"
 import { QueryOptionsDto } from "../dto/queryOptions.dto"
-import { CreatePlatformDto } from "../dto/createPlatform.dto"
+import { FindOptions } from "sequelize/types"
 
 @Injectable()
-export class PlatformService implements IPlatformService {
-  constructor(@InjectModel(Platform) private platformModel) {}
+export class PlatformService {
+  constructor(
+    @Inject("PLATFORM_REPOSITORY") private platformRepository: typeof Platform,
+  ) {}
 
   /**
    * Retrieve all platform records from the data store
@@ -17,7 +17,7 @@ export class PlatformService implements IPlatformService {
    */
   public async getAll(queryOptions?: QueryOptionsDto) {
     try {
-      const options = {
+      const options: FindOptions = {
         order: [
           [
             queryOptions.order_term ? queryOptions.order_term : "id",
@@ -40,7 +40,7 @@ export class PlatformService implements IPlatformService {
         }
       }
 
-      const platforms = await this.platformModel.findAll(options)
+      const platforms = await this.platformRepository.findAll(options)
       return platforms
     } catch (err) {
       return Promise.reject(err)
@@ -67,7 +67,7 @@ export class PlatformService implements IPlatformService {
         }
       }
 
-      const platform = await this.platformModel.findOne(options)
+      const platform = await this.platformRepository.findOne(options)
       return platform
     } catch (err) {
       return Promise.reject(err)
@@ -79,9 +79,9 @@ export class PlatformService implements IPlatformService {
    * @param {CreatePlatformDto} payload
    * @returns {object} created platform record
    */
-  public async create(payload: CreatePlatformDto) {
+  public async create(payload) {
     try {
-      const platform = await this.platformModel.create(payload)
+      const platform = await this.platformRepository.create(payload)
       return platform
     } catch (err) {
       return Promise.reject(err)
@@ -94,9 +94,9 @@ export class PlatformService implements IPlatformService {
    * @param {CreatePlatformDto} payload
    * @returns {object} updated instance
    */
-  public async update(id: number, payload: CreatePlatformDto) {
+  public async update(id: number, payload) {
     try {
-      const platform = await this.platformModel.findOne({
+      const platform = await this.platformRepository.findOne({
         where: {
           id,
         },
@@ -124,7 +124,7 @@ export class PlatformService implements IPlatformService {
    */
   public async delete(id: number) {
     try {
-      const platform = await this.platformModel.findOne({
+      const platform = await this.platformRepository.findOne({
         where: {
           id,
         },
