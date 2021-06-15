@@ -11,9 +11,6 @@ import { gameProviders } from "./game.providers"
   imports: [DatabaseModule, GameCharacterModule],
   // exports: [SequelizeModule],
   controllers: [GameController],
-  providers: [
-    GameService,
-    ...gameProviders,
-  ],
+  providers: [GameService, ...gameProviders],
 })
 export class GameModule {}

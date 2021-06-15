@@ -22,17 +22,22 @@ const devConfig = {
 
 const prodConfig = {
   provide: "SEQUELIZE",
-  useFactory: async() => {
-    const sequelize = new Sequelize(process.env.CLEARDB_DATABASE_URL, {
-      dialect: "mysql"
+  useFactory: async () => {
+    const sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: "postgres",
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     })
     sequelize.addModels(models)
     await sequelize.sync()
     return sequelize
-  }
+  },
 }
 
 export const databaseProviders = [
-  prodConfig,
-  // devConfig,
+  process.env.NODE_ENV === "production" ? prodConfig : devConfig,
 ]

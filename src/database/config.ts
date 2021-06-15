@@ -19,8 +19,8 @@ module.exports = {
   development: sqlite,
   test: sqlite,
   production: {
-    use_env_variable: "CLEARDB_DATABASE_URL",
-    dialect: "mysql",
+    use_env_variable: "DATABASE_URL",
+    dialect: "postgres",
     dialectOptions: {
       ssl: {
         require: true,

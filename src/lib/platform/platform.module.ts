@@ -10,9 +10,6 @@ import { platformProviders } from "./platform.providers"
   imports: [DatabaseModule],
   // exports: [SequelizeModule],
   controllers: [PlatformController],
-  providers: [
-    PlatformService,
-    ...platformProviders,
-  ],
+  providers: [PlatformService, ...platformProviders],
 })
 export class PlatformModule {}
