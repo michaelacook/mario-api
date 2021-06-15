@@ -20,6 +20,7 @@ export class Character extends Model<Character> {
   image_url: string
 
   @ForeignKey(() => Game)
+  @Column
   debut_game: number
 
   @BelongsToMany(() => Game, () => GameCharacter)
