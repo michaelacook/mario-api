@@ -51,7 +51,7 @@ export class CharacterService {
       }
     }
 
-    return await this.characterRepository.findAll(options)
+    return await this.characterRepository.findAll<Character>(options)
   }
 
   /**
@@ -76,7 +76,7 @@ export class CharacterService {
       }
     }
 
-    return await this.characterRepository.findOne(options)
+    return await this.characterRepository.findOne<Character>(options)
   }
 
   /**
@@ -85,7 +85,7 @@ export class CharacterService {
    * @returns {Array}
    */
   public async getAssociatedGames(id: number): Promise<Game[]> {
-    const { games } = await this.characterRepository.findOne({
+    const { games } = await this.characterRepository.findOne<Character>({
       where: {
         id,
       },
@@ -101,7 +101,7 @@ export class CharacterService {
    * @returns {String} imgUrl
    */
   public async getImage(id: number): Promise<Character> {
-    return await this.characterRepository.findOne({
+    return await this.characterRepository.findOne<Character>({
       where: {
         id,
       },
@@ -116,7 +116,7 @@ export class CharacterService {
    * @returns {object}
    */
   public async update(id: number, payload): Promise<Character> {
-    const character = await this.characterRepository.findOne({
+    const character = await this.characterRepository.findOne<Character>({
       where: {
         id,
       },
@@ -143,7 +143,7 @@ export class CharacterService {
    * application state upon successful delete on the server
    */
   public async delete(id: number): Promise<number> {
-    const character = await this.characterRepository.findOne({
+    const character = await this.characterRepository.findOne<Character>({
       where: {
         id,
       },
