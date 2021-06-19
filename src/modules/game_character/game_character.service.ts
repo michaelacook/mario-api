@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { GameCharacter } from "./game_character.model"
+import { GameCharacterDto } from "./gameCharacter.dto"
 import { GAME_CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()
@@ -11,15 +12,12 @@ export class GameCharacterService {
 
   /**
    * Associate a character with a game
-   * @param {Object} payload
+   * @param {GameCharacterDto} payload
    * @returns {GameCharacter} instance
    */
-  public async addCharacterToGame(payload) {
-    try {
-      const gameCharacter = await this.gameCharacterRepository.create(payload)
-      return gameCharacter
-    } catch (err) {
-      return Promise.reject(err)
-    }
+  public async addCharacterToGame(
+    payload: GameCharacterDto,
+  ): Promise<GameCharacter> {
+    return await this.gameCharacterRepository.create<GameCharacter>(payload)
   }
 }
