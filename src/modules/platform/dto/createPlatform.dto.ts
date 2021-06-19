@@ -1,4 +1,4 @@
 export class CreatePlatformDto {
-  name: string
-  year: number
+  readonly name: string
+  readonly year: number
 }
