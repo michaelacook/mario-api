@@ -20,7 +20,7 @@ import { CharacterImageUploader } from "./character-image-uploader.service"
 import { QueryOptions } from "./types/query-options.type"
 import { CreateCharacterDto } from "./dto/create-character.dto"
 import { UpdateCharacterDto } from "./dto/update-character.dto"
-import { CharacterExistsPipe } from "./pipes/characterExists.pipe"
+import { CharacterExistsPipe } from "./pipes/character-exists.pipe"
 
 @Controller("characters")
 export class CharacterController {
