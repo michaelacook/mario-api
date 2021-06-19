@@ -1,8 +1,9 @@
 import { Game } from "./game.model"
+import { GAME_REPOSITORY } from "src/core/constants"
 
 export const gameProviders = [
   {
-    provide: "GAMES_REPOSITORY",
+    provide: GAME_REPOSITORY,
     useValue: Game,
   },
 ]

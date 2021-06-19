@@ -5,7 +5,7 @@ import { Game } from "../game/game.model"
 import { Character } from "../character/character.model"
 
 @Table
-export class GameCharacter extends Model<GameCharacter> {
+export class GameCharacter extends Model {
   @ForeignKey(() => Game)
   @Column
   gameId: number

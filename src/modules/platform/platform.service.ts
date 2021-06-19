@@ -3,12 +3,12 @@ import { Platform } from "./platform.model"
 import { Game } from "../game/game.model"
 import { QueryOptionsDto } from "./dto/queryOptions.dto"
 import { FindOptions } from "sequelize/types"
-import { PLATFORMS_REPOSITORY } from "src/core/constants"
+import { PLATFORM_REPOSITORY } from "src/core/constants"
 
 @Injectable()
 export class PlatformService {
   constructor(
-    @Inject(PLATFORMS_REPOSITORY)
+    @Inject(PLATFORM_REPOSITORY)
     private readonly platformRepository: typeof Platform,
   ) {}
 

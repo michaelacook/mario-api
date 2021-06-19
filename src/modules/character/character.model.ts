@@ -9,7 +9,7 @@ import { Game } from "../game/game.model"
 import { GameCharacter } from "../game_character/game_character.model"
 
 @Table
-export class Character extends Model<Character> {
+export class Character extends Model {
   @Column
   name: string
 

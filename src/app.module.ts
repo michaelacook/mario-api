@@ -7,6 +7,7 @@ import { PlatformModule } from "./modules/platform/platform.module"
 import { CharacterModule } from "./modules/character/character.module"
 import { GameCharacterModule } from "./modules/game_character/game_character.module"
 import { UploaderModule } from "./modules/uploader/uploader.module"
+import { DatabaseModule } from "./core/database/database.module"
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UploaderModule } from "./modules/uploader/uploader.module"
     CharacterModule,
     GameCharacterModule,
     UploaderModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

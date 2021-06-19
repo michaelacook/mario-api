@@ -1,11 +1,11 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { GameCharacter } from "./game_character.model"
-import { GAME_CHARACTERS_REPOSITORY } from "src/core/constants"
+import { GAME_CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()
 export class GameCharacterService {
   constructor(
-    @Inject(GAME_CHARACTERS_REPOSITORY)
+    @Inject(GAME_CHARACTER_REPOSITORY)
     private readonly gameCharacterRepository: typeof GameCharacter,
   ) {}
 

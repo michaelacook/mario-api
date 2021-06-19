@@ -1,5 +1,5 @@
 export class CreateCharacterDto {
-  name: string
-  year_released: number
-  debut_game: number
+  readonly name: string
+  readonly year_released: number
+  readonly debut_game: number
 }

@@ -5,12 +5,12 @@ import { Character } from "../character/character.model"
 import { GameCharacterService } from "../game_character/game_character.service"
 import { QueryOption } from "./types/queryOption"
 import { FindOptions } from "sequelize/types"
-import { GAMES_REPOSITORY } from "src/core/constants"
+import { GAME_REPOSITORY } from "src/core/constants"
 
 @Injectable()
 export class GameService {
   constructor(
-    @Inject(GAMES_REPOSITORY) private gameRepository: typeof Game,
+    @Inject(GAME_REPOSITORY) private gameRepository: typeof Game,
     @Inject(GameCharacterService) private gameCharacterService,
   ) {}
 
