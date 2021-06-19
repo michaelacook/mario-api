@@ -3,21 +3,31 @@ import { Character } from "./character.model"
 import { Game } from "../game/game.model"
 import { QueryOptionsDto } from "./dto/queryOptions.dto"
 import { FindOptions } from "sequelize/types"
-import { CHARACTERS_REPOSITORY } from "src/core/constants"
+import { CreateCharacterDto } from "./dto/createCharacter.dto"
+import { CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()
 export class CharacterService {
   constructor(
-    @Inject(CHARACTERS_REPOSITORY)
-    private characterRepository: typeof Character,
+    @Inject(CHARACTER_REPOSITORY)
+    private readonly characterRepository: typeof Character,
   ) {}
+
+  /**
+   * Add a character record to the data store
+   * @param {CreateCharacterDto} payload
+   * @returns {Character}
+   */
+  public async create(payload: CreateCharacterDto): Promise<Character> {
+    return await this.characterRepository.create<Character>({ ...payload })
+  }
 
   /**
    * Retrieve all characters from the data store
    * @param {QueryOptions?} queryOptions - options passed in from the controller
    * @returns {Array}
    */
-  public async getAll(queryOptions?: QueryOptionsDto) {
+  public async getAll(queryOptions?: QueryOptionsDto): Promise<Character[]> {
     const options: FindOptions = {
       order: [
         [
@@ -50,7 +60,10 @@ export class CharacterService {
    * @param {QueryOptions?} queryOptions - options passed in from the controller
    * @returns {Object}
    */
-  public async getOne(id: number, queryOptions?: QueryOptionsDto) {
+  public async getOne(
+    id: number,
+    queryOptions?: QueryOptionsDto,
+  ): Promise<Character> {
     const options: FindOptions = {
       where: {
         id,
@@ -71,7 +84,7 @@ export class CharacterService {
    * @param {number} id - character record primary key
    * @returns {Array}
    */
-  public async getAssociatedGames(id: number) {
+  public async getAssociatedGames(id: number): Promise<Game[]> {
     const { games } = await this.characterRepository.findOne({
       where: {
         id,
@@ -87,7 +100,7 @@ export class CharacterService {
    * @param {Number} id - record primary key
    * @returns {String} imgUrl
    */
-  public async getImage(id: number) {
+  public async getImage(id: number): Promise<Character> {
     return await this.characterRepository.findOne({
       where: {
         id,
@@ -97,21 +110,12 @@ export class CharacterService {
   }
 
   /**
-   * Add a character record to the data store
-   * @param {CreateCharacterDto} payload
-   * @returns {object}
-   */
-  public async create(payload) {
-    return await this.characterRepository.create(payload)
-  }
-
-  /**
    * Update a character record in the data store
    * @param {Number} id - record primary key
    * @param {UpdateCharacterDto} payload
    * @returns {object}
    */
-  public async update(id: number, payload) {
+  public async update(id: number, payload): Promise<Character> {
     const character = await this.characterRepository.findOne({
       where: {
         id,
@@ -138,7 +142,7 @@ export class CharacterService {
    * to use the returned id to remove the record from their own
    * application state upon successful delete on the server
    */
-  public async delete(id: number) {
+  public async delete(id: number): Promise<number> {
     const character = await this.characterRepository.findOne({
       where: {
         id,
