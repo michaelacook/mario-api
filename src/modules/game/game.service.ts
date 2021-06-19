@@ -17,171 +17,146 @@ export class GameService {
   /**
    * Retrieve all mario games
    * @param {QueryOptions} queryOptions - options passed from the controller
-   * @returns {Array}
+   * @returns {Game[]}
    */
-  public async getAll(queryOptions?: QueryOption) {
-    try {
-      const options: FindOptions = {
-        order: [
-          [
-            queryOptions.order_term ? queryOptions.order_term : "id",
-            queryOptions.order_by ? queryOptions.order_by : "ASC",
-          ],
+  public async getAll(queryOptions?: QueryOption): Promise<Game[]> {
+    const options: FindOptions = {
+      order: [
+        [
+          queryOptions.order_term ? queryOptions.order_term : "id",
+          queryOptions.order_by ? queryOptions.order_by : "ASC",
         ],
-      }
-
-      if (queryOptions) {
-        const { include_characters, include_platform } = queryOptions
-        if (include_characters && include_platform) {
-          options["include"] = [
-            {
-              model: Character,
-            },
-            {
-              model: Platform,
-            },
-          ]
-        } else if (include_characters) {
-          options["include"] = Character
-        } else if (include_platform) {
-          options["include"] = Platform
-        }
-
-        if (queryOptions.limit) {
-          options["limit"] = queryOptions.limit
-        }
-
-        if (queryOptions.offset) {
-          options["offset"] = queryOptions.offset
-        }
-      }
-
-      const games = await this.gameRepository.findAll(options)
-      return games
-    } catch (err) {
-      console.log(err)
-      return Promise.reject(err)
+      ],
     }
+
+    if (queryOptions) {
+      const { include_characters, include_platform } = queryOptions
+      if (include_characters && include_platform) {
+        options["include"] = [
+          {
+            model: Character,
+          },
+          {
+            model: Platform,
+          },
+        ]
+      } else if (include_characters) {
+        options["include"] = Character
+      } else if (include_platform) {
+        options["include"] = Platform
+      }
+
+      if (queryOptions.limit) {
+        options["limit"] = queryOptions.limit
+      }
+
+      if (queryOptions.offset) {
+        options["offset"] = queryOptions.offset
+      }
+    }
+
+    return await this.gameRepository.findAll(options)
   }
 
   /**
    * Retrieve a single game by id primary key
    * @param {QueryOptions} queryOptions - options passed from the controller
-   * @returns {Object}
+   * @returns {Game}
    */
-  public async getOne(id: number, queryOptions?: QueryOption) {
-    try {
-      const options = {
-        where: {
-          id,
-        },
-      }
-
-      if (queryOptions) {
-        const { include_characters, include_platform } = queryOptions
-        if (include_characters && include_platform) {
-          options["include"] = [
-            {
-              model: Character,
-            },
-            {
-              model: Platform,
-            },
-          ]
-        } else if (include_characters) {
-          options["include"] = Character
-        } else if (include_platform) {
-          options["include"] = Platform
-        }
-      }
-
-      const game = await this.gameRepository.findOne(options)
-      return game
-    } catch (err) {
-      return Promise.reject(err)
+  public async getOne(id: number, queryOptions?: QueryOption): Promise<Game> {
+    const options = {
+      where: {
+        id,
+      },
     }
+
+    if (queryOptions) {
+      const { include_characters, include_platform } = queryOptions
+      if (include_characters && include_platform) {
+        options["include"] = [
+          {
+            model: Character,
+          },
+          {
+            model: Platform,
+          },
+        ]
+      } else if (include_characters) {
+        options["include"] = Character
+      } else if (include_platform) {
+        options["include"] = Platform
+      }
+    }
+
+    return await this.gameRepository.findOne(options)
   }
 
-  public async getAssociatedPlatform(id: number) {
-    try {
-      const { platform } = await this.gameRepository.findOne({
-        where: {
-          id,
-        },
-        include: Platform,
-      })
+  /**
+   * Gets the platform associated with a game
+   * @param {number} id - game primary key
+   * @returns {Platform}
+   */
+  public async getAssociatedPlatform(id: number): Promise<Platform> {
+    const { platform } = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+      include: Platform,
+    })
 
-      return platform
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return platform
   }
 
   /**
    * Create a new game in the data store
    * @param {CreateGameDto} payload
-   * @returns {object}
+   * @returns {Game}
    */
-  public async create(payload) {
-    try {
-      const game = await this.gameRepository.create(payload)
-      return game
-    } catch (err) {
-      return Promise.reject(err)
-    }
+  public async create(payload): Promise<Game> {
+    return await this.gameRepository.create(payload)
   }
 
   /**
    * Use the GameCharacterService to associate a character with a game
    * Then return the game with associated characters
    * @param {AddCharacterDto} payload
-   * @returns {object}
+   * @returns {Game}
    */
-  public async addCharacter(payload) {
-    try {
-      const { gameId } = payload
-      await this.gameCharacterService.addCharacterToGame(payload)
+  public async addCharacter(payload): Promise<Game> {
+    const { gameId } = payload
+    await this.gameCharacterService.addCharacterToGame(payload)
 
-      const game = await this.gameRepository.findOne({
-        where: {
-          id: gameId,
-        },
-        include: Character,
-      })
-
-      return game
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return await this.gameRepository.findOne({
+      where: {
+        id: gameId,
+      },
+      include: Character,
+    })
   }
 
   /**
    * Update a game record in the data store
    * @param {Number} id - game record primary key
    * @param {object} payload
-   * @returns {object} updated game instance
+   * @returns {Game} updated game instance
    */
-  public async update(id: number, payload) {
-    try {
-      const game = await this.gameRepository.findOne({
-        where: {
-          id,
-        },
-      })
+  public async update(id: number, payload): Promise<Game> {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    })
 
-      for (let key in payload) {
-        if (key in payload) {
-          game[key] = payload[key]
-        }
+    for (let key in payload) {
+      if (key in payload) {
+        game[key] = payload[key]
       }
-
-      await game.save()
-      await game.reload()
-
-      return game
-    } catch (err) {
-      return Promise.reject(err)
     }
+
+    await game.save()
+    await game.reload()
+
+    return game
   }
 
   /**
@@ -189,19 +164,15 @@ export class GameService {
    * @param {Number} id - primary key for record
    * @returns {Number} id for deleted record
    */
-  public async delete(id: number) {
-    try {
-      const game = await this.gameRepository.findOne({
-        where: {
-          id,
-        },
-      })
+  public async delete(id: number): Promise<number> {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    })
 
-      await game.destroy()
+    await game.destroy()
 
-      return game.id
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return game.id
   }
 }
