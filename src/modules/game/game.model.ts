@@ -11,7 +11,7 @@ import { Character } from "../character/character.model"
 import { GameCharacter } from "../game_character/game_character.model"
 
 @Table
-export class Game extends Model<Game> {
+export class Game extends Model {
   @Column
   title: string
 

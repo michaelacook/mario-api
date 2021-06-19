@@ -5,6 +5,7 @@ import { Character } from "../character/character.model"
 import { GameCharacterService } from "../game_character/game_character.service"
 import { QueryOption } from "./types/queryOption"
 import { FindOptions } from "sequelize/types"
+import { CreateGameDto } from "./dto/createGame.dto"
 import { GAME_REPOSITORY } from "src/core/constants"
 
 @Injectable()
@@ -13,6 +14,15 @@ export class GameService {
     @Inject(GAME_REPOSITORY) private gameRepository: typeof Game,
     @Inject(GameCharacterService) private gameCharacterService,
   ) {}
+
+  /**
+   * Create a new game in the data store
+   * @param {CreateGameDto} payload
+   * @returns {Game}
+   */
+  public async create(payload: CreateGameDto): Promise<Game> {
+    return await this.gameRepository.create<Game>(payload)
+  }
 
   /**
    * Retrieve all mario games
@@ -55,7 +65,7 @@ export class GameService {
       }
     }
 
-    return await this.gameRepository.findAll(options)
+    return await this.gameRepository.findAll<Game>(options)
   }
 
   /**
@@ -88,7 +98,7 @@ export class GameService {
       }
     }
 
-    return await this.gameRepository.findOne(options)
+    return await this.gameRepository.findOne<Game>(options)
   }
 
   /**
@@ -97,7 +107,7 @@ export class GameService {
    * @returns {Platform}
    */
   public async getAssociatedPlatform(id: number): Promise<Platform> {
-    const { platform } = await this.gameRepository.findOne({
+    const { platform } = await this.gameRepository.findOne<Game>({
       where: {
         id,
       },
@@ -105,15 +115,6 @@ export class GameService {
     })
 
     return platform
-  }
-
-  /**
-   * Create a new game in the data store
-   * @param {CreateGameDto} payload
-   * @returns {Game}
-   */
-  public async create(payload): Promise<Game> {
-    return await this.gameRepository.create(payload)
   }
 
   /**
@@ -126,7 +127,7 @@ export class GameService {
     const { gameId } = payload
     await this.gameCharacterService.addCharacterToGame(payload)
 
-    return await this.gameRepository.findOne({
+    return await this.gameRepository.findOne<Game>({
       where: {
         id: gameId,
       },
@@ -141,7 +142,7 @@ export class GameService {
    * @returns {Game} updated game instance
    */
   public async update(id: number, payload): Promise<Game> {
-    const game = await this.gameRepository.findOne({
+    const game = await this.gameRepository.findOne<Game>({
       where: {
         id,
       },
@@ -165,7 +166,7 @@ export class GameService {
    * @returns {Number} id for deleted record
    */
   public async delete(id: number): Promise<number> {
-    const game = await this.gameRepository.findOne({
+    const game = await this.gameRepository.findOne<Game>({
       where: {
         id,
       },

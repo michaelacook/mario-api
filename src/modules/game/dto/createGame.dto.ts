@@ -1,5 +1,5 @@
 export class CreateGameDto {
-  title: string
-  year: number
-  platformId: number
+  readonly title: string
+  readonly year: number
+  readonly platformId: number
 }
