@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@nestjs/common"
 import { Character } from "./character.model"
 import { Game } from "../game/game.model"
-import { QueryOptionsDto } from "./dto/queryOptions.dto"
+import { QueryOptions } from "./types/query-options.type"
 import { FindOptions } from "sequelize/types"
-import { CreateCharacterDto } from "./dto/createCharacter.dto"
+import { CreateCharacterDto } from "./dto/create-character.dto"
 import { CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()
@@ -27,7 +27,7 @@ export class CharacterService {
    * @param {QueryOptions?} queryOptions - options passed in from the controller
    * @returns {Array}
    */
-  public async getAll(queryOptions?: QueryOptionsDto): Promise<Character[]> {
+  public async getAll(queryOptions?: QueryOptions): Promise<Character[]> {
     const options: FindOptions = {
       order: [
         [
@@ -62,7 +62,7 @@ export class CharacterService {
    */
   public async getOne(
     id: number,
-    queryOptions?: QueryOptionsDto,
+    queryOptions?: QueryOptions,
   ): Promise<Character> {
     const options: FindOptions = {
       where: {

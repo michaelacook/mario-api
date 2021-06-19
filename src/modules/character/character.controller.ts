@@ -16,10 +16,10 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
 import { CharacterService } from "./character.service"
-import { CharacterImageUploader } from "./characterImageUploader.service"
-import { QueryOptionsDto } from "./dto/queryOptions.dto"
-import { CreateCharacterDto } from "./dto/createCharacter.dto"
-import { UpdateCharacterDto } from "./dto/updateCharacter.dto"
+import { CharacterImageUploader } from "./character-image-uploader.service"
+import { QueryOptions } from "./types/query-options.type"
+import { CreateCharacterDto } from "./dto/create-character.dto"
+import { UpdateCharacterDto } from "./dto/update-character.dto"
 import { CharacterExistsPipe } from "./pipes/characterExists.pipe"
 
 @Controller("characters")
@@ -32,20 +32,18 @@ export class CharacterController {
   ) {}
 
   @Get("/")
-  public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
+  public async getAll(@Query() query: QueryOptions, @Res() res: Response) {
     const characters = await this.characterService.getAll(query)
-
     return res.json(characters)
   }
 
   @Get("/:id")
   public async getOne(
     @Param("id", ParseIntPipe, CharacterExistsPipe) id: number,
-    @Query() query: QueryOptionsDto,
+    @Query() query: QueryOptions,
     @Res() res: Response,
   ) {
     const character = await this.characterService.getOne(id, query)
-
     return res.json(character)
   }
 
@@ -55,7 +53,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const games = await this.characterService.getAssociatedGames(id)
-
     return res.json(games)
   }
 
@@ -65,7 +62,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const url = await this.characterService.getImage(id)
-
     return res.json(url)
   }
 
@@ -77,7 +73,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const character = await this.characterImageUploader.addImage(id, file)
-
     return res.json(character)
   }
 
@@ -87,7 +82,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const character = await this.characterService.create(createCharDto)
-
     return res.status(201).json(character)
   }
 
@@ -98,7 +92,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const character = await this.characterService.update(id, updateCharDto)
-
     return res.json(character)
   }
 
@@ -108,7 +101,6 @@ export class CharacterController {
     @Res() res: Response,
   ) {
     const deletedRecordId = await this.characterService.delete(id)
-
     return res.json(deletedRecordId)
   }
 }

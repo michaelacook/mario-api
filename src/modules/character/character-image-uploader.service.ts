@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@nestjs/common"
 import { Uploader } from "../uploader/uploader.service"
 import { File } from "../uploader/uploader.types"
 import { CharacterService } from "./character.service"
-import { UpdateCharacterDto } from "./dto/updateCharacter.dto"
+import { UpdateCharacterDto } from "./dto/update-character.dto"
 
 @Injectable()
 export class CharacterImageUploader extends Uploader {
@@ -23,9 +23,8 @@ export class CharacterImageUploader extends Uploader {
     try {
       const image_url = await this.upload(file, "image/png")
       const payload: UpdateCharacterDto = { image_url }
-      const character = await this.characterService.update(id, payload)
 
-      return character
+      return await this.characterService.update(id, payload)
     } catch (err) {
       Promise.reject(err)
     }
