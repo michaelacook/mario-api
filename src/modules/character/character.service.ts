@@ -18,35 +18,30 @@ export class CharacterService {
    * @returns {Array}
    */
   public async getAll(queryOptions?: QueryOptionsDto) {
-    try {
-      const options: FindOptions = {
-        order: [
-          [
-            queryOptions.order_term ? queryOptions.order_term : "id",
-            queryOptions.order_by ? queryOptions.order_by : "ASC",
-          ],
+    const options: FindOptions = {
+      order: [
+        [
+          queryOptions.order_term ? queryOptions.order_term : "id",
+          queryOptions.order_by ? queryOptions.order_by : "ASC",
         ],
-      }
-
-      if (queryOptions) {
-        if (queryOptions.include_games) {
-          options["include"] = Game
-        }
-
-        if (queryOptions.limit) {
-          options["limit"] = queryOptions.limit
-        }
-
-        if (queryOptions.offset) {
-          options["offset"] = queryOptions.offset
-        }
-      }
-
-      const characters = await this.characterRepository.findAll(options)
-      return characters
-    } catch (err) {
-      return Promise.reject(err)
+      ],
     }
+
+    if (queryOptions) {
+      if (queryOptions.include_games) {
+        options["include"] = Game
+      }
+
+      if (queryOptions.limit) {
+        options["limit"] = queryOptions.limit
+      }
+
+      if (queryOptions.offset) {
+        options["offset"] = queryOptions.offset
+      }
+    }
+
+    return await this.characterRepository.findAll(options)
   }
 
   /**
@@ -56,24 +51,19 @@ export class CharacterService {
    * @returns {Object}
    */
   public async getOne(id: number, queryOptions?: QueryOptionsDto) {
-    try {
-      const options: FindOptions = {
-        where: {
-          id,
-        },
-      }
-
-      if (queryOptions) {
-        if (queryOptions.include_games) {
-          options["include"] = Game
-        }
-      }
-
-      const character = await this.characterRepository.findOne(options)
-      return character
-    } catch (err) {
-      return Promise.reject(err)
+    const options: FindOptions = {
+      where: {
+        id,
+      },
     }
+
+    if (queryOptions) {
+      if (queryOptions.include_games) {
+        options["include"] = Game
+      }
+    }
+
+    return await this.characterRepository.findOne(options)
   }
 
   /**
@@ -82,18 +72,14 @@ export class CharacterService {
    * @returns {Array}
    */
   public async getAssociatedGames(id: number) {
-    try {
-      const { games } = await this.characterRepository.findOne({
-        where: {
-          id,
-        },
-        include: Game,
-      })
+    const { games } = await this.characterRepository.findOne({
+      where: {
+        id,
+      },
+      include: Game,
+    })
 
-      return games
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return games
   }
 
   /**
@@ -102,18 +88,12 @@ export class CharacterService {
    * @returns {String} imgUrl
    */
   public async getImage(id: number) {
-    try {
-      const imgUrl = await this.characterRepository.findOne({
-        where: {
-          id,
-        },
-        attributes: ["image_url"],
-      })
-
-      return imgUrl
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return await this.characterRepository.findOne({
+      where: {
+        id,
+      },
+      attributes: ["image_url"],
+    })
   }
 
   /**
@@ -122,12 +102,7 @@ export class CharacterService {
    * @returns {object}
    */
   public async create(payload) {
-    try {
-      const character = await this.characterRepository.create(payload)
-      return character
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return await this.characterRepository.create(payload)
   }
 
   /**
@@ -137,26 +112,22 @@ export class CharacterService {
    * @returns {object}
    */
   public async update(id: number, payload) {
-    try {
-      const character = await this.characterRepository.findOne({
-        where: {
-          id,
-        },
-      })
+    const character = await this.characterRepository.findOne({
+      where: {
+        id,
+      },
+    })
 
-      for (let key in payload) {
-        if (key in payload) {
-          character[key] = payload[key]
-        }
+    for (let key in payload) {
+      if (key in payload) {
+        character[key] = payload[key]
       }
-
-      await character.save()
-      await character.reload()
-
-      return character
-    } catch (err) {
-      return Promise.reject(err)
     }
+
+    await character.save()
+    await character.reload()
+
+    return character
   }
 
   /**
@@ -168,18 +139,14 @@ export class CharacterService {
    * application state upon successful delete on the server
    */
   public async delete(id: number) {
-    try {
-      const character = await this.characterRepository.findOne({
-        where: {
-          id,
-        },
-      })
+    const character = await this.characterRepository.findOne({
+      where: {
+        id,
+      },
+    })
 
-      await character.destroy()
+    await character.destroy()
 
-      return character.id
-    } catch (err) {
-      return Promise.reject(err)
-    }
+    return character.id
   }
 }
