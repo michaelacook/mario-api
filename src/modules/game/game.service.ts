@@ -3,9 +3,9 @@ import { Game } from "./game.model"
 import { Platform } from "../platform/platform.model"
 import { Character } from "../character/character.model"
 import { GameCharacterService } from "../game_character/game_character.service"
-import { QueryOption } from "./types/queryOption"
+import { QueryOption } from "./types/query-option.type"
 import { FindOptions } from "sequelize/types"
-import { CreateGameDto } from "./dto/createGame.dto"
+import { CreateGameDto } from "./dto/create-game.dto"
 import { GAME_REPOSITORY } from "src/core/constants"
 
 @Injectable()

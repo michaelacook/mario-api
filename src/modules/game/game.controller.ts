@@ -13,11 +13,11 @@ import {
 } from "@nestjs/common"
 import { Response } from "express"
 import { GameService } from "./game.service"
-import { QueryStringObject } from "./types/queryString"
-import { CreateGameDto } from "./dto/createGame.dto"
-import { UpdateGameDto } from "./dto/updateGame.dto"
-import { AddCharacterDto } from "./dto/addCharacter.dto"
-import { GameExistsPipe } from "./pipes/gameExists.pipe"
+import { QueryStringObject } from "./types/query-string.type"
+import { CreateGameDto } from "./dto/create-game.dto"
+import { UpdateGameDto } from "./dto/update-game.dto"
+import { AddCharacterDto } from "./dto/add-character.dto"
+import { GameExistsPipe } from "./pipes/game-exists.pipe"
 
 @Controller("games")
 export class GameController {
@@ -26,7 +26,6 @@ export class GameController {
   @Get("/")
   public async getAll(@Query() query: QueryStringObject, @Res() res: Response) {
     const games = await this.gameService.getAll(query)
-
     return res.json(games)
   }
 
@@ -37,7 +36,6 @@ export class GameController {
     @Res() res: Response,
   ) {
     const game = await this.gameService.getOne(id, query)
-
     return res.json(game)
   }
 
@@ -47,7 +45,6 @@ export class GameController {
     @Res() res: Response,
   ) {
     const platform = await this.gameService.getAssociatedPlatform(id)
-
     return res.json(platform)
   }
 
@@ -57,7 +54,6 @@ export class GameController {
     @Res() res: Response,
   ) {
     const game = await this.gameService.create(createGameDto)
-
     return res.status(201).json(game)
   }
 
@@ -75,7 +71,6 @@ export class GameController {
       characterId: body.characterId,
     }
     const gameWithChars = await this.gameService.addCharacter(payload)
-
     return res.status(201).json(gameWithChars)
   }
 
@@ -86,7 +81,6 @@ export class GameController {
     @Res() res: Response,
   ) {
     const game = await this.gameService.update(id, updateGame)
-
     return res.json(game)
   }
 
@@ -96,7 +90,6 @@ export class GameController {
     @Res() res: Response,
   ) {
     const gameId = await this.gameService.delete(id)
-
     return res.json(gameId)
   }
 }

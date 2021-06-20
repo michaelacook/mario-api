@@ -1,4 +1,4 @@
-import { OrderTerm } from "./orderTerm"
+import { OrderTerm } from "./order-term.type"
 
 export type QueryOption = {
   order_term: OrderTerm
