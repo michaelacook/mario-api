@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { GameCharacter } from "./game_character.model"
-import { GameCharacterDto } from "./gameCharacter.dto"
+import { GameCharacterDto } from "./game-character.dto"
 import { GAME_CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()

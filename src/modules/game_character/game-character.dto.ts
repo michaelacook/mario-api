@@ -1,6 +1,6 @@
 import { IsInt } from "class-validator"
 
-export class AddCharacterDto {
+export class GameCharacterDto {
   @IsInt()
   readonly gameId: number
 

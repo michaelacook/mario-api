@@ -16,7 +16,7 @@ import { GameService } from "./game.service"
 import { QueryStringObject } from "./types/query-string.type"
 import { CreateGameDto } from "./dto/create-game.dto"
 import { UpdateGameDto } from "./dto/update-game.dto"
-import { AddCharacterDto } from "./dto/add-character.dto"
+import { GameCharacterDto } from "../game_character/game-character.dto"
 import { GameExistsPipe } from "./pipes/game-exists.pipe"
 
 @Controller("games")
@@ -66,7 +66,7 @@ export class GameController {
     @Body() body: { characterId: number },
     @Res() res: Response,
   ) {
-    const payload: AddCharacterDto = {
+    const payload: GameCharacterDto = {
       gameId: id,
       characterId: body.characterId,
     }
