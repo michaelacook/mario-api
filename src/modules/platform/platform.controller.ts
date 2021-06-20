@@ -13,9 +13,9 @@ import {
 } from "@nestjs/common"
 import { Response } from "express"
 import { PlatformService } from "./platform.service"
-import { QueryOptionsDto } from "./dto/queryOptions.dto"
-import { CreatePlatformDto } from "./dto/createPlatform.dto"
-import { PlatformExistsPipe } from "./pipes/platformExists.pipe"
+import { QueryOptions } from "./types/query-options.type"
+import { CreatePlatformDto } from "./dto/create-platform.dto"
+import { PlatformExistsPipe } from "./pipes/platform-exists.pipe"
 
 @Controller("platforms")
 export class PlatformController {
@@ -25,7 +25,7 @@ export class PlatformController {
   ) {}
 
   @Get("/")
-  public async getAll(@Query() query: QueryOptionsDto, @Res() res: Response) {
+  public async getAll(@Query() query: QueryOptions, @Res() res: Response) {
     const platforms = await this.platformService.getAll(query)
     return res.json(platforms)
   }
@@ -33,7 +33,7 @@ export class PlatformController {
   @Get("/:id")
   public async getOne(
     @Param("id", ParseIntPipe, PlatformExistsPipe) id: number,
-    @Query() query: QueryOptionsDto,
+    @Query() query: QueryOptions,
     @Res() res: Response,
   ) {
     const platform = await this.platformService.getOne(id, query)

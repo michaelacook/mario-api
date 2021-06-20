@@ -1,11 +1,11 @@
 import { Injectable, Inject } from "@nestjs/common"
+import { FindOptions } from "sequelize/types"
 import { Platform } from "./platform.model"
 import { Game } from "../game/game.model"
-import { QueryOptionsDto } from "./dto/queryOptions.dto"
-import { FindOptions } from "sequelize/types"
+import { QueryOptions } from "./types/query-options.type"
+import { CreatePlatformDto } from "./dto/create-platform.dto"
+import { UpdatePlatformDto } from "./dto/update-platform.dto"
 import { PLATFORM_REPOSITORY } from "src/core/constants"
-import { CreatePlatformDto } from "./dto/createPlatform.dto"
-import { UpdatePlatformDto } from "./dto/updatePlatform.dto"
 
 @Injectable()
 export class PlatformService {
@@ -25,10 +25,10 @@ export class PlatformService {
 
   /**
    * Retrieve all platform records from the data store
-   * @param {QueryOptionsDto} queryOptions
+   * @param {QueryOptions} queryOptions
    * @returns {Platform[]}
    */
-  public async getAll(queryOptions?: QueryOptionsDto): Promise<Platform[]> {
+  public async getAll(queryOptions?: QueryOptions): Promise<Platform[]> {
     const options: FindOptions = {
       order: [
         [
@@ -58,12 +58,12 @@ export class PlatformService {
   /**
    * Find a single platform record by primary key
    * @param {Number} id - record primary key
-   * @param {QueryOptionsDto} queryOptions
+   * @param {QueryOptions} queryOptions
    * @returns {Platform}
    */
   public async getOne(
     id: number,
-    queryOptions?: QueryOptionsDto,
+    queryOptions?: QueryOptions,
   ): Promise<Platform> {
     const options: FindOptions = {
       where: {
@@ -114,18 +114,14 @@ export class PlatformService {
    * @returns {Number} id for deleted record
    */
   public async delete(id: number): Promise<number> {
-    try {
-      const platform = await this.platformRepository.findOne<Platform>({
-        where: {
-          id,
-        },
-      })
+    const platform = await this.platformRepository.findOne<Platform>({
+      where: {
+        id,
+      },
+    })
 
-      await platform.destroy()
+    await platform.destroy()
 
-      return platform.id
-    } catch (err) {
-      Promise.reject(err)
-    }
+    return platform.id
   }
 }
