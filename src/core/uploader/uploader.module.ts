@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common"
-import { Uploader } from "./uploader.service"
+import { Uploader } from "./uploader"
 
 @Module({
   exports: [Uploader],

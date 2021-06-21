@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common"
-import { File } from "./uploader.types"
+import { IUploader } from "../../core/interfaces/uploader.interface"
+import { File } from "../../core/types/file.type"
 import AWS, { S3 } from "aws-sdk"
 
 @Injectable()
-export class Uploader {
+export class Uploader implements IUploader {
   private bucketName: string
   private s3: S3
 

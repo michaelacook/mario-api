@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
 import { DatabaseModule } from "../../core/database/database.module"
 import { CharacterService } from "./character.service"
-import { Uploader } from "../uploader/uploader.service"
+import { Uploader } from "../../core/uploader/uploader"
 import { CharacterImageUploader } from "./character-image-uploader.service"
 import { CharacterController } from "./character.controller"
 import { characterProviders } from "./character.provider"

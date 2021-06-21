@@ -17,6 +17,7 @@ import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
 import { CharacterService } from "./character.service"
 import { CharacterImageUploader } from "./character-image-uploader.service"
+import { ICharacterImageUploader } from "./character-image-uploader.interface"
 import { QueryOptions } from "./types/query-options.type"
 import { CreateCharacterDto } from "./dto/create-character.dto"
 import { UpdateCharacterDto } from "./dto/update-character.dto"
@@ -28,7 +29,7 @@ export class CharacterController {
     @Inject(CharacterService)
     private readonly characterService: CharacterService,
     @Inject(CharacterImageUploader)
-    private readonly characterImageUploader: CharacterImageUploader,
+    private readonly characterImageUploader: ICharacterImageUploader,
   ) {}
 
   @Get("/")

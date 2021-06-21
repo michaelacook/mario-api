@@ -1,17 +1,18 @@
 import { Injectable, Inject } from "@nestjs/common"
-import { Uploader } from "../uploader/uploader.service"
-import { File } from "../uploader/uploader.types"
+import { IUploader } from "src/core/interfaces/uploader.interface"
+import { ICharacterImageUploader } from "./character-image-uploader.interface"
+import { Uploader } from "../../core/uploader/uploader"
+import { File } from "../../core/types/file.type"
 import { CharacterService } from "./character.service"
 import { UpdateCharacterDto } from "./dto/update-character.dto"
 
 @Injectable()
-export class CharacterImageUploader extends Uploader {
+export class CharacterImageUploader implements ICharacterImageUploader {
   constructor(
     @Inject(CharacterService)
     private readonly characterService: CharacterService,
-  ) {
-    super()
-  }
+    @Inject(Uploader) private readonly uploader: IUploader,
+  ) {}
 
   /**
    * Upload a character image to the S3 bucket and add the url to the character database record
@@ -21,7 +22,7 @@ export class CharacterImageUploader extends Uploader {
    */
   public async addImage(id: number, file: File) {
     try {
-      const image_url = await this.upload(file, "image/png")
+      const image_url = await this.uploader.upload(file, "image/png")
       const payload: UpdateCharacterDto = { image_url }
 
       return await this.characterService.update(id, payload)
