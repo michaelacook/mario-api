@@ -1,16 +1,17 @@
 import { Injectable, Inject } from "@nestjs/common"
 import { IUploader } from "src/core/interfaces/uploader.interface"
-import { ICharacterImageUploader } from "./character-image-uploader.interface"
-import { Uploader } from "../../core/uploader/uploader"
-import { File } from "../../core/types/file.type"
-import { CharacterService } from "./character.service"
-import { UpdateCharacterDto } from "./dto/update-character.dto"
+import { ICharacterImageUploader } from "../interfaces/character-image-uploader.interface"
+import { Uploader } from "../../../core/uploader/uploader"
+import { File } from "../../../core/types/file.type"
+import { ICharacterService } from "../interfaces/character.interface"
+import { CHARACTER_SERVICE } from "../constants"
+import { UpdateCharacterDto } from "../dto/update-character.dto"
 
 @Injectable()
 export class CharacterImageUploader implements ICharacterImageUploader {
   constructor(
-    @Inject(CharacterService)
-    private readonly characterService: CharacterService,
+    @Inject(CHARACTER_SERVICE)
+    private readonly characterService: ICharacterService,
     @Inject(Uploader) private readonly uploader: IUploader,
   ) {}
 

@@ -1,13 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common"
-import { Character } from "./character.model"
-import { Game } from "../game/game.model"
-import { QueryOptions } from "./types/query-options.type"
+import { Character } from "../character.model"
+import { Game } from "../../game/game.model"
+import { ICharacterService } from "../interfaces/character.interface"
+import { QueryOptions } from "../types/query-options.type"
 import { FindOptions } from "sequelize/types"
-import { CreateCharacterDto } from "./dto/create-character.dto"
+import { CreateCharacterDto } from "../dto/create-character.dto"
 import { CHARACTER_REPOSITORY } from "src/core/constants"
 
 @Injectable()
-export class CharacterService {
+export class CharacterService implements ICharacterService {
   constructor(
     @Inject(CHARACTER_REPOSITORY)
     private readonly characterRepository: typeof Character,

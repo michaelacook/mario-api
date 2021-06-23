@@ -15,20 +15,20 @@ import {
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { Express, Response } from "express"
-import { CharacterService } from "./character.service"
-import { CharacterImageUploader } from "./character-image-uploader.service"
-import { ICharacterImageUploader } from "./character-image-uploader.interface"
+import { ICharacterService } from "./interfaces/character.interface"
+import { ICharacterImageUploader } from "./interfaces/character-image-uploader.interface"
 import { QueryOptions } from "./types/query-options.type"
 import { CreateCharacterDto } from "./dto/create-character.dto"
 import { UpdateCharacterDto } from "./dto/update-character.dto"
 import { CharacterExistsPipe } from "./pipes/character-exists.pipe"
+import { CHARACTER_SERVICE, CHARACTER_IMAGE_UPLOADER } from "./constants"
 
 @Controller("characters")
 export class CharacterController {
   constructor(
-    @Inject(CharacterService)
-    private readonly characterService: CharacterService,
-    @Inject(CharacterImageUploader)
+    @Inject(CHARACTER_SERVICE)
+    private readonly characterService: ICharacterService,
+    @Inject(CHARACTER_IMAGE_UPLOADER)
     private readonly characterImageUploader: ICharacterImageUploader,
   ) {}
 
