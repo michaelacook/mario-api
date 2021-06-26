@@ -1,0 +1,1 @@
+export const PLATFORM_SERVICE = "PLATFORM_SERVICE"

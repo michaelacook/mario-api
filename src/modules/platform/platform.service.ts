@@ -6,9 +6,10 @@ import { QueryOptions } from "./types/query-options.type"
 import { CreatePlatformDto } from "./dto/create-platform.dto"
 import { UpdatePlatformDto } from "./dto/update-platform.dto"
 import { PLATFORM_REPOSITORY } from "src/core/constants"
+import { IDataStoreService } from "src/core/interfaces/data-store-service.interface"
 
 @Injectable()
-export class PlatformService {
+export class PlatformService implements IDataStoreService {
   constructor(
     @Inject(PLATFORM_REPOSITORY)
     private readonly platformRepository: typeof Platform,
