@@ -5,13 +5,14 @@ import {
   ArgumentMetadata,
   NotFoundException,
 } from "@nestjs/common"
-import { GameService } from "../game.service"
+import { IGameService } from "../game.interface"
+import { GAME_SERVICE } from "../constants"
 
 @Injectable()
 export class GameExistsPipe implements PipeTransform {
   constructor(
-    @Inject(GameService)
-    private readonly gameService: GameService,
+    @Inject(GAME_SERVICE)
+    private readonly gameService: IGameService,
   ) {}
 
   public async transform(value: number, metadata: ArgumentMetadata) {
