@@ -1,3 +1,3 @@
 export interface IGameCharacterService {
-  addCharacterToGame(gameId: number, characterId: number)
+  addCharacterToGame(payload: { gameId: number; characterId: number })
 }

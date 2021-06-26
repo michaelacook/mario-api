@@ -2,18 +2,18 @@ import { Inject, Injectable } from "@nestjs/common"
 import { Game } from "./game.model"
 import { Platform } from "../platform/platform.model"
 import { Character } from "../character/character.model"
-import { GameCharacterService } from "../game_character/game_character.service"
 import { IGameService } from "./game.interface"
 import { QueryOption } from "./types/query-option.type"
 import { FindOptions } from "sequelize/types"
 import { CreateGameDto } from "./dto/create-game.dto"
 import { GAME_REPOSITORY } from "src/core/constants"
+import { GAME_CHARACTER_SERVICE } from "../game_character/constants"
 
 @Injectable()
 export class GameService implements IGameService {
   constructor(
     @Inject(GAME_REPOSITORY) private gameRepository: typeof Game,
-    @Inject(GameCharacterService) private gameCharacterService,
+    @Inject(GAME_CHARACTER_SERVICE) private gameCharacterService,
   ) {}
 
   /**
