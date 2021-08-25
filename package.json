@@ -1,10 +1,10 @@
 {
   "name": "mario-api",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "A basic REST API for managing Mario Bros franchise data. The API returns data related to Mario characters, games, and their console platforms.",
+  "author": "Michael A. Cook",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -29,6 +29,7 @@
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.17",
     "@nestjs/sequelize": "^0.2.0",
+    "@nestjs/swagger": "^4.8.2",
     "aws-sdk": "^2.922.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
@@ -39,7 +40,8 @@
     "rxjs": "^6.6.6",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0",
-    "sequelize-typescript": "^2.1.0"
+    "sequelize-typescript": "^2.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
