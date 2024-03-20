@@ -19,8 +19,10 @@ export class PlatformService implements IDataStoreService {
    * Create a new platform record in the data store
    * @param {CreatePlatformDto} payload
    * @returns {Platform} created platform record
+   * 
+   * removing DTO for now, causes type error
    */
-  public async create(payload: CreatePlatformDto): Promise<Platform> {
+  public async create(payload): Promise<Platform> {
     return await this.platformRepository.create<Platform>(payload)
   }
 

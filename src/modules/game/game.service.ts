@@ -20,8 +20,10 @@ export class GameService implements IGameService {
    * Create a new game in the data store
    * @param {CreateGameDto} payload
    * @returns {Game}
+   * 
+   * removing DTO for now, results in a type error
    */
-  public async create(payload: CreateGameDto): Promise<Game> {
+  public async create(payload): Promise<Game> {
     return await this.gameRepository.create<Game>(payload)
   }
 

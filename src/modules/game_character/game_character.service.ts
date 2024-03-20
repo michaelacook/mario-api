@@ -15,10 +15,10 @@ export class GameCharacterService implements IGameCharacterService {
    * Associate a character with a game
    * @param {GameCharacterDto} payload
    * @returns {GameCharacter} instance
+   * 
+   * removing DTO for now, causes type error
    */
-  public async addCharacterToGame(
-    payload: GameCharacterDto,
-  ): Promise<GameCharacter> {
+  public async addCharacterToGame(payload): Promise<GameCharacter> {
     return await this.gameCharacterRepository.create<GameCharacter>(payload)
   }
 }
