@@ -1,7 +1,7 @@
 # Mario API 
 A basic REST API for managing Mario Bros franchise data. The API returns data related to Mario characters, games, and their console platforms.
 
-The purpose of this project is to get some practice with TypeScript and start gaining familiarity with the [NestJS](https://nestjs.com/) framework. Click [here](https://supermario-api.herokuapp.com/api/) to view the API documentation.
+The purpose of this project is to get some practice with TypeScript and start gaining familiarity with the [NestJS](https://nestjs.com/) framework.
 
 ## Running Locally 
 The application runs on port 5000. To run and view seed data, clone and install, then run migrations:
