@@ -3,6 +3,8 @@
 # This is a test script to install dependencies and deploy the API in
 # a test cloud environment.
 
+cd ~
+
 sudo apt update -y
 sudo apt upgrade -y
 
